@@ -16,9 +16,7 @@ This is a PyCharm plugin based on uiautomator2. It provides UI control attribute
 
 ### Plugin Details:
 
-* **Plugin ID**: com.zeros.ScriptAssistant
 * **Plugin Name**: ScriptAssistant
-* **Vendor**: Nothing (email: zeros2619@gmail.com, url: https://www.zeros2619.com)
 * **Description**: An assistant for uiautomator2 automation scripts, including features like script recording and intelligent code completion to enhance automation script writing efficiency.
 * **Target IDE Platform**: PyCharm (PC)
 * **Supported IDE Versions**: Since build 213 up to 251.*
@@ -26,11 +24,7 @@ This is a PyCharm plugin based on uiautomator2. It provides UI control attribute
 ### Project Configuration:
 
 * **Project Name**: ScriptAssistant
-* **Group**: com.zeros.scriptassistant
 * **Version**: 1.0-SNAPSHOT
-* **Java Version**: 11
-* **Dependencies**:
-    * Hutool Core 5.8.38
 * **Gradle IntelliJ Plugin Version**: 1.8.0
 * **Target IntelliJ Version**: 2021.3.2
 
@@ -53,9 +47,7 @@ This is a PyCharm plugin based on uiautomator2. It provides UI control attribute
 
 ### 插件详情:
 
-* **插件 ID**: com.zeros.ScriptAssistant
 * **插件名称**: ScriptAssistant
-* **开发者**: Nothing (邮箱: zeros2619@gmail.com, 网址: https://www.zeros2619.com)
 * **描述**: uiautomator2自动化脚本助手：包含自动化脚本录制，智能代码补全等功能，提升自动化脚本编写效率。
 * **目标 IDE 平台**: PyCharm (PC)
 * **支持的 IDE 版本**: 从版本 213 到 251.*
@@ -63,10 +55,6 @@ This is a PyCharm plugin based on uiautomator2. It provides UI control attribute
 ### 项目配置:
 
 * **项目名称**: ScriptAssistant
-* **组**: com.zeros.scriptassistant
 * **版本**: 1.0-SNAPSHOT
-* **Java 版本**: 11
-* **依赖**:
-    * Hutool Core 5.8.38
 * **Gradle IntelliJ 插件版本**: 1.8.0
 * **目标 IntelliJ 版本**: 2021.3.2
