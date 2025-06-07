@@ -7,7 +7,7 @@ public class U2 {
     private PythonExecutor executor;
     private String failMsg;
 
-    public boolean init(String path, String serial) {
+    public boolean init(String path, String serial, String objectName) {
         try {
             failMsg = "init failed";
             executor = new PythonExecutor(path);
@@ -18,10 +18,10 @@ public class U2 {
                 System.out.println(failMsg);
                 return false;
             }
-            if(serial == null){
-                result = executor.executeCode("d = u2.connect()");
-            }else{
-                result = executor.executeCode("d = u2.connect('" + serial + "')");
+            if (serial == null) {
+                result = executor.executeCode(objectName + " = u2.connect()");
+            } else {
+                result = executor.executeCode(objectName + " = u2.connect('" + serial + "')");
             }
             if (result.contains("NameError:") || result.contains("状态异常")) {
                 failMsg = result;
@@ -35,7 +35,7 @@ public class U2 {
         return true;
     }
 
-    public String getInitFailMsg(){
+    public String getInitFailMsg() {
         return failMsg;
     }
 
@@ -44,6 +44,9 @@ public class U2 {
     }
 
     public String executeCode(String code, int indentLevel) {
+        if (executor == null) {
+            return null;
+        }
         try {
             return executor.executeCode(code, indentLevel);
         } catch (IOException e) {
@@ -64,12 +67,13 @@ public class U2 {
     public void close() {
         try {
             executor.close();
+            executor = null;
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public static void main(String[] args) {
-        new U2().init("F:\\PycharmProjects\\U2Test\\venv\\Scripts\\python.exe", null);
+        new U2().init("F:\\PycharmProjects\\U2Test\\venv\\Scripts\\python.exe", null, "d");
     }
 }

@@ -66,7 +66,7 @@ public class ToolManager {
             currentDevice = connectingDevice;
             main.setErrorPanel("", false);
             return true;
-        }else{
+        } else {
             main.setErrorPanel(connectingDevice.u2.getInitFailMsg(), true);
         }
         return false;
@@ -119,7 +119,7 @@ public class ToolManager {
         }
         new Thread(() -> {
             main.setDumpButtonEnable(false);
-            if(delay > 0){
+            if (delay > 0) {
                 ThreadUtil.sleep(delay);
             }
             updateScreenSync();
@@ -202,9 +202,12 @@ public class ToolManager {
     public void generateSelectorCode() {
         if (target != null) {
             NodeInfo info = (NodeInfo) target.getUserObject();
-            String code = currentDevice.generateCode(info.node, saneCode);
+            String code = codeGenerator.generateCode(currentDevice, info.node, saneCode);
             System.out.println(code);
             // 获取editor对象
+            if (!saneCode) {
+                code = codeGenerator.getCompletedCode(currentDevice.getAlias(), code);
+            }
             codeGenerator.insert(code, saneCode);
         }
     }
@@ -212,27 +215,27 @@ public class ToolManager {
     public void generateClickCode() {
         if (target != null) {
             NodeInfo info = (NodeInfo) target.getUserObject();
-            String code = currentDevice.generateCode(info.node);
+            String code = codeGenerator.generateCode(currentDevice, info.node);
             System.out.println(code);
-            code = currentDevice.clickCode(code);
+            code = codeGenerator.clickCode(code);
             // 获取editor对象写入代码
-            codeGenerator.insert(code, true);
-            execCode(code);
+            codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
+            execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));
         }
     }
 
-    public void generateSwipeCode(double startX, double startY, double endX, double endY, double duration){
+    public void generateSwipeCode(double startX, double startY, double endX, double endY, double duration) {
         String code;
-        if(startX > 1){
-            code = currentDevice.generateSwipeCode((int)startX, (int)startY, (int)endX, (int)endY, duration);
-        }else{
-            code = currentDevice.generateSwipeCode(startX, startY, endX, endY, duration);
+        if (startX > 1) {
+            code = codeGenerator.generateSwipeCode((int) startX, (int) startY, (int) endX, (int) endY, duration);
+        } else {
+            code = codeGenerator.generateSwipeCode(startX, startY, endX, endY, duration);
         }
-        codeGenerator.insert(code, true);
-        execCode(code);
+        codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
+        execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));
     }
 
-    private void execCode(String code){
+    private void execCode(String code) {
         // 执行代码
         System.out.println(currentDevice.u2.executeCode(code));
         // 刷新ui
@@ -256,7 +259,7 @@ public class ToolManager {
     }
 
     public void setCurrentDeviceAlias(String alias) {
-        if(currentDevice == null){
+        if (currentDevice == null) {
             return;
         }
         currentDevice.setAlias(alias);

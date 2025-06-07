@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.util.*;
 
 public class Device {
+    public static final String OBJECT_NAME = "d";
     public String serial;
     public U2 u2;
     public String dumpSaveDir;
@@ -24,7 +25,7 @@ public class Device {
     public Document hierarchyDoc;
     public DefaultMutableTreeNode treeNode;
     public Set<Rectangle> allNodeRect = new HashSet<>();
-    private Map<String, Map<String, Integer>> attributeMap;
+    public Map<String, Map<String, Integer>> attributeMap;
     private static long lastScreenshotModifyTime;
     private static long lastHierarchyModifyTime;
     private File screenShotSaveFile;
@@ -40,7 +41,7 @@ public class Device {
         dumpSaveDir = saveDir;
         screenShotSaveFile = new File(dumpSaveDir, "screen.png");
         hierarchySaveFile = new File(dumpSaveDir, "hierarchy.xml");
-        return u2.init(pythonPath, serial);
+        return u2.init(pythonPath, serial, OBJECT_NAME);
     }
 
     public String getSerial() {
@@ -132,42 +133,6 @@ public class Device {
                 }
             }
         }
-    }
-
-    public String generateSwipeCode(int startX, int startY, int endX, int endY, double duration) {
-//        return alias + ".u2.swipe(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
-        return alias + ".swipe(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
-    }
-
-    public String generateSwipeCode(double startX, double startY, double endX, double endY, double duration) {
-//        return alias + ".u2.swipe(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
-        return alias + ".swipe(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
-    }
-
-    public String generateCode(Node node) {
-        return generateCode(node, false);
-    }
-
-    public String generateCode(Node node, boolean onlySelector) {
-        String selector = NodeLocator.getAttributeCombination(hierarchyDoc.getDocumentElement().getElementsByTagName("node"), node);
-        if (selector == null) {
-            selector = XPathLite.getXPath(attributeMap, node);
-            if (onlySelector) {
-                return "'" + selector + "'";
-            }
-//            return alias + ".u2.xpath('" + selector + "')";
-            return alias + ".xpath('" + selector + "')";
-        } else {
-            if (onlySelector) {
-                return "Selector(" + selector + ")";
-            }
-//            return alias + ".u2(Selector(" + selector + "))";
-            return alias + "(" + selector + ")";
-        }
-    }
-
-    public String clickCode(String code) {
-        return code + ".click()";
     }
 
     public void dumpUI() {

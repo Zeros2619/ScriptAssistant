@@ -8,6 +8,8 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ProjectRootManager;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 public class CodeGenerator {
 
@@ -15,6 +17,43 @@ public class CodeGenerator {
 
     public CodeGenerator(Project project) {
         this.project = project;
+    }
+
+    public String getCompletedCode(String objectName, String code) {
+        return objectName + code;
+    }
+
+    public String generateSwipeCode(int startX, int startY, int endX, int endY, double duration) {
+        return ".swipe(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
+    }
+
+    public String generateSwipeCode(double startX, double startY, double endX, double endY, double duration) {
+        return ".swipe(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
+    }
+
+    public String generateCode(Device device, Node node) {
+        return generateCode(device, node, false);
+    }
+
+    public String generateCode(Device device, Node node, boolean onlySelector) {
+        NodeList nodeList = device.hierarchyDoc.getDocumentElement().getElementsByTagName("node");
+        String selector = NodeLocator.getAttributeCombination(nodeList, node);
+        if (selector == null) {
+            selector = XPathLite.getXPath(device.attributeMap, node);
+            if (onlySelector) {
+                return "'" + selector + "'";
+            }
+            return ".xpath('" + selector + "')";
+        } else {
+            if (onlySelector) {
+                return "Selector(" + selector + ")";
+            }
+            return "(" + selector + ")";
+        }
+    }
+
+    public String clickCode(String code) {
+        return code + ".click()";
     }
 
     public void insert(String code, boolean endEnter) {
