@@ -22,10 +22,12 @@ public class ToolManager {
     private Device currentDevice;
     private final List<Device> connectedDevices = new ArrayList<>();
     private final CodeGenerator codeGenerator;
+    private DeviceAliasConfig deviceAliasConfig;
 
     public ToolManager(Main main, Project project) {
         this.main = main;
         codeGenerator = new CodeGenerator(project);
+        deviceAliasConfig = DeviceAliasConfig.getInstance(project);
     }
 
     public List<String> getDevices() {
@@ -58,7 +60,7 @@ public class ToolManager {
             return false;
         }
         System.out.println("pythonSdkPath=" + pythonSdkPath);
-        Device connectingDevice = new Device(serial);
+        Device connectingDevice = new Device(serial, deviceAliasConfig);
         if (connectingDevice.init(pythonSdkPath, codeGenerator.getFilePath())) {
             connectingDevice.setAlias(connectedDevices.size());
             main.setAlias(connectingDevice.getAlias());

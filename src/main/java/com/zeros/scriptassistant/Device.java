@@ -31,10 +31,13 @@ public class Device {
     private File screenShotSaveFile;
     private File hierarchySaveFile;
     private String alias = "d";
+    private DeviceAliasConfig deviceAliasConfig;
 
-    public Device(String serial) {
+    public Device(String serial, DeviceAliasConfig deviceAliasConfig) {
         this.serial = serial;
         u2 = new U2();
+        this.deviceAliasConfig = deviceAliasConfig;
+        alias = deviceAliasConfig.getAlias(serial);
     }
 
     public boolean init(String pythonPath, String saveDir) {
@@ -145,6 +148,8 @@ public class Device {
 
     public void setAlias(String alias) {
         this.alias = alias;
+        // 保存 alias
+        deviceAliasConfig.setAlias(serial, alias);
     }
 
     public void setAlias(int index) {
@@ -156,6 +161,8 @@ public class Device {
         } else {
             alias = "d";
         }
+        // 保存 alias
+        deviceAliasConfig.setAlias(serial, alias);
     }
 
     public String getAlias() {

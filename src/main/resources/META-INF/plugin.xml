@@ -21,6 +21,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
+        <projectService serviceInterface="com.zeros.scriptassistant.DeviceAliasConfig" serviceImplementation="com.zeros.scriptassistant.DeviceAliasConfig"/>
         <toolWindow id="ScriptAssistant" icon="AllIcons.Toolwindows.ToolWindowHierarchy" anchor="right"
                     factoryClass="com.zeros.scriptassistant.MainToolWindow"/>
     </extensions>
