@@ -204,7 +204,7 @@ public class ToolManager {
     public void generateSelectorCode() {
         if (target != null) {
             NodeInfo info = (NodeInfo) target.getUserObject();
-            String code = codeGenerator.generateCode(currentDevice, info.node, saneCode);
+            String code = codeGenerator.generateCode(currentDevice, info.node, saneCode, false);
             System.out.println(code);
             // 获取editor对象
             if (!saneCode) {
@@ -232,6 +232,49 @@ public class ToolManager {
             code = codeGenerator.generateSwipeCode((int) startX, (int) startY, (int) endX, (int) endY, duration);
         } else {
             code = codeGenerator.generateSwipeCode(startX, startY, endX, endY, duration);
+        }
+        codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
+        execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));
+    }
+
+    public void generatePercentClickCode(double percentX, double percentY) {
+        String code = codeGenerator.generatePercentClickCode(percentX, percentY);
+        codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
+        execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));
+    }
+
+    public void generateCtrlClickCode(boolean useXpath) {
+        if (target != null) {
+            NodeInfo info = (NodeInfo) target.getUserObject();
+            String code = codeGenerator.generateCode(currentDevice, info.node, false, useXpath);
+            code = codeGenerator.clickCode(code);
+            codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
+            execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));
+        }
+    }
+
+    public void generateCtrlSelectorCode(boolean useXpath) {
+        if (target != null) {
+            NodeInfo info = (NodeInfo) target.getUserObject();
+            String code = codeGenerator.generateCode(currentDevice, info.node, true, useXpath);
+            if (!saneCode) {
+                code = codeGenerator.getCompletedCode(currentDevice.getAlias(), code);
+            }
+            codeGenerator.insert(code, saneCode);
+        }
+    }
+
+    public void generateCtrlSwipeCode(double startX, double startY, double endX, double endY, double duration, boolean useXpath) {
+        String code;
+        if (startX > 1) {
+            code = codeGenerator.generateSwipeCode((int) startX, (int) startY, (int) endX, (int) endY, duration);
+        } else {
+            code = codeGenerator.generateSwipeCode(startX, startY, endX, endY, duration);
+        }
+        if (useXpath) {
+            NodeInfo info = (NodeInfo) target.getUserObject();
+            String xpathCode = codeGenerator.generateCode(currentDevice, info.node, false, true);
+            code = xpathCode + code;
         }
         codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
         execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));

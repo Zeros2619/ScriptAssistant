@@ -47,18 +47,35 @@ public class Main {
         }
 
         @Override
-        public void onLeftDoubleClicked(int imageX, int imageY) {
-            manager.generateClickCode();
+        public void onLeftDoubleClicked(int imageX, int imageY, boolean isCtrlPressed) {
+            if (isCtrlPressed) {
+                // Ctrl 键按下时，强制使用 XPath 生成代码
+                manager.generateCtrlClickCode(true);
+            } else {
+                manager.generateClickCode();
+            }
         }
 
         @Override
-        public void onLeftClicked(int imageX, int imageY) {
-            manager.updateSelectedNode(nodeTree, imageX, imageY);
+        public void onLeftClicked(int imageX, int imageY, boolean isCtrlPressed) {
+            if (isCtrlPressed) {
+                double percentX = (double) imageX / imagePanel.getImage().getWidth();
+                double percentY = (double) imageY / imagePanel.getImage().getHeight();
+                // Ctrl 键按下时，生成百分比坐标点击
+                manager.generatePercentClickCode(percentX, percentY);
+            } else {
+                manager.updateSelectedNode(nodeTree, imageX, imageY);
+            }
         }
 
         @Override
-        public void onRightClicked(int imageX, int imageY) {
-            manager.generateSelectorCode();
+        public void onRightClicked(int imageX, int imageY, boolean isCtrlPressed) {
+            if (isCtrlPressed) {
+                // Ctrl 键按下时，强制使用 XPath 生成代码
+                manager.generateCtrlSelectorCode(true);
+            } else {
+                manager.generateSelectorCode();
+            }
         }
 
         @Override
@@ -67,8 +84,13 @@ public class Main {
         }
 
         @Override
-        public void onSwipe(double startX, double startY, double endX, double endY, double duration) {
-            manager.generateSwipeCode(startX, startY, endX, endY, duration);
+        public void onSwipe(double startX, double startY, double endX, double endY, double duration, boolean isCtrlPressed) {
+            if (isCtrlPressed) {
+                // Ctrl 键按下时，强制使用 XPath 生成代码
+                manager.generateCtrlSwipeCode(startX, startY, endX, endY, duration, true);
+            } else {
+                manager.generateSwipeCode(startX, startY, endX, endY, duration);
+            }
         }
     };
 

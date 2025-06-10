@@ -66,6 +66,7 @@ public class ImagePanel extends JPanel {
                 }
                 releaseX = e.getX();
                 releaseY = e.getY();
+                boolean isCtrlPressed = e.isControlDown(); // 检查 Ctrl 键是否按下
                 if (Math.abs(pressX - e.getX()) > 10 || Math.abs(pressY - e.getY()) > 10) {
                     Point start = scaleToImagePoint(pressX, pressY);
                     Point end = scaleToImagePoint(releaseX, releaseY);
@@ -77,13 +78,13 @@ public class ImagePanel extends JPanel {
                     rect = null;
                     double duration = NumberUtil.div(System.currentTimeMillis() - pressTime, 1000, 2);
                     if(rightBtn) {
-                        listener.onSwipe(start.x, start.y, end.x, end.y, duration);
+                        listener.onSwipe(start.x, start.y, end.x, end.y, duration, isCtrlPressed);
                     }else{
                         double percentStartX = NumberUtil.div(start.x, image.getWidth(), 2);
                         double percentStartY = NumberUtil.div(start.y, image.getHeight(), 2);
                         double percentEndX = NumberUtil.div(end.x, image.getWidth(), 2);
                         double percentEndY = NumberUtil.div(end.y, image.getHeight(), 2);
-                        listener.onSwipe(percentStartX, percentStartY, percentEndX, percentEndY, duration);
+                        listener.onSwipe(percentStartX, percentStartY, percentEndX, percentEndY, duration, isCtrlPressed);
                     }
                 }else{
                     line = null;
@@ -102,22 +103,23 @@ public class ImagePanel extends JPanel {
                 }
                 int imageX = imagePoint.x;
                 int imageY = imagePoint.y;
+                boolean isCtrlPressed = e.isControlDown(); // 检查 Ctrl 键是否按下
                 long now = System.currentTimeMillis();
                 if (now - lastClickedTime < 300) {
                     if (Math.abs(lastX - e.getX()) < 10 && Math.abs(lastY - e.getY()) < 10) {
                         // 双击
-                        listener.onLeftDoubleClicked(imageX, imageY);
+                        listener.onLeftDoubleClicked(imageX, imageY, isCtrlPressed);
                         return;
                     }
                 }
                 lastX = e.getX();
                 lastY = e.getY();
                 lastClickedTime = now;
-                listener.onLeftClicked(imageX, imageY);
-                //根据点击位置，找到所属控件，控件树选中对应控件
+                listener.onLeftClicked(imageX, imageY, isCtrlPressed);
+                // 根据点击位置，找到所属控件，控件树选中对应控件
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    //右键要生成代码
-                    listener.onRightClicked(imageX, imageY);
+                    // 右键要生成代码
+                    listener.onRightClicked(imageX, imageY, isCtrlPressed);
                 }
             }
         });
@@ -248,19 +250,19 @@ public class ImagePanel extends JPanel {
         public void onMousePositionChange(int imageX, int imageY) {
         }
 
-        public void onLeftDoubleClicked(int imageX, int imageY) {
+        public void onLeftDoubleClicked(int imageX, int imageY, boolean isCtrlPressed) {
         }
 
-        public void onLeftClicked(int imageX, int imageY) {
+        public void onLeftClicked(int imageX, int imageY, boolean isCtrlPressed) {
         }
 
-        public void onRightClicked(int imageX, int imageY) {
+        public void onRightClicked(int imageX, int imageY, boolean isCtrlPressed) {
         }
 
         public void onMouseWheel() {
         }
 
-        public void onSwipe(double startX, double startY, double endX, double endY, double duration){
+        public void onSwipe(double startX, double startY, double endX, double endY, double duration, boolean isCtrlPressed){
         }
     }
 }

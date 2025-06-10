@@ -32,13 +32,17 @@ public class CodeGenerator {
     }
 
     public String generateCode(Device device, Node node) {
-        return generateCode(device, node, false);
+        return generateCode(device, node, false, false);
     }
 
-    public String generateCode(Device device, Node node, boolean onlySelector) {
+    public String generatePercentClickCode(double percentX, double percentY) {
+        return ".click(" + percentX + ", " + percentY + ")";
+    }
+
+    public String generateCode(Device device, Node node, boolean onlySelector, boolean xpath) {
         NodeList nodeList = device.hierarchyDoc.getDocumentElement().getElementsByTagName("node");
         String selector = NodeLocator.getAttributeCombination(nodeList, node);
-        if (selector == null) {
+        if (selector == null || xpath) {
             selector = XPathLite.getXPath(device.attributeMap, node);
             if (onlySelector) {
                 return "'" + selector + "'";
