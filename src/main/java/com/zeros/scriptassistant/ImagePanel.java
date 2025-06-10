@@ -115,11 +115,12 @@ public class ImagePanel extends JPanel {
                 lastX = e.getX();
                 lastY = e.getY();
                 lastClickedTime = now;
-                listener.onLeftClicked(imageX, imageY, isCtrlPressed);
-                // 根据点击位置，找到所属控件，控件树选中对应控件
+                // todo ctrl+左键双击失败，双击逻辑需要修改，延迟响应单击，如果在300ms内再次点击，判定为双击，取消单击的响应
+                // 单击有三种类型， selector点击，xpath点击，坐标点击
                 if (e.getButton() == MouseEvent.BUTTON3) {
-                    // 右键要生成代码
                     listener.onRightClicked(imageX, imageY, isCtrlPressed);
+                }else if(e.getButton() == MouseEvent.BUTTON1){
+                    listener.onLeftClicked(imageX, imageY, isCtrlPressed);
                 }
             }
         });
@@ -240,6 +241,10 @@ public class ImagePanel extends JPanel {
         int width = (int) (rectangle.width / scaleX);
         int height = (int) (rectangle.height / scaleY);
         return new Rectangle(x1, y1, width, height);
+    }
+
+    public BufferedImage getImage() {
+        return image;
     }
 
     public Rectangle getRect() {

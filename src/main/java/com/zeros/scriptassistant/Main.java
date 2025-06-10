@@ -1,5 +1,7 @@
 package com.zeros.scriptassistant;
 
+import cn.hutool.core.util.NumberUtil;
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.TreeSelectionEvent;
@@ -59,8 +61,8 @@ public class Main {
         @Override
         public void onLeftClicked(int imageX, int imageY, boolean isCtrlPressed) {
             if (isCtrlPressed) {
-                double percentX = (double) imageX / imagePanel.getImage().getWidth();
-                double percentY = (double) imageY / imagePanel.getImage().getHeight();
+                double percentX = NumberUtil.div(imageX, imagePanel.getImage().getWidth(), 2);
+                double percentY = NumberUtil.div(imageY, imagePanel.getImage().getHeight(), 2);
                 // Ctrl 键按下时，生成百分比坐标点击
                 manager.generatePercentClickCode(percentX, percentY);
             } else {
@@ -70,6 +72,8 @@ public class Main {
 
         @Override
         public void onRightClicked(int imageX, int imageY, boolean isCtrlPressed) {
+            // 先要选中点击位置的控件
+            manager.updateSelectedNode(nodeTree, imageX, imageY);
             if (isCtrlPressed) {
                 // Ctrl 键按下时，强制使用 XPath 生成代码
                 manager.generateCtrlSelectorCode(true);
@@ -87,7 +91,7 @@ public class Main {
         public void onSwipe(double startX, double startY, double endX, double endY, double duration, boolean isCtrlPressed) {
             if (isCtrlPressed) {
                 // Ctrl 键按下时，强制使用 XPath 生成代码
-                manager.generateCtrlSwipeCode(startX, startY, endX, endY, duration, true);
+                manager.generateCtrlSwipeCode(startX, startY, endX, endY, duration);
             } else {
                 manager.generateSwipeCode(startX, startY, endX, endY, duration);
             }

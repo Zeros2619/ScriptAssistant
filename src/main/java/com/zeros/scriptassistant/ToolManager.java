@@ -256,7 +256,7 @@ public class ToolManager {
     public void generateCtrlSelectorCode(boolean useXpath) {
         if (target != null) {
             NodeInfo info = (NodeInfo) target.getUserObject();
-            String code = codeGenerator.generateCode(currentDevice, info.node, true, useXpath);
+            String code = codeGenerator.generateCode(currentDevice, info.node, saneCode, useXpath);
             if (!saneCode) {
                 code = codeGenerator.getCompletedCode(currentDevice.getAlias(), code);
             }
@@ -264,17 +264,12 @@ public class ToolManager {
         }
     }
 
-    public void generateCtrlSwipeCode(double startX, double startY, double endX, double endY, double duration, boolean useXpath) {
+    public void generateCtrlSwipeCode(double startX, double startY, double endX, double endY, double duration) {
         String code;
         if (startX > 1) {
-            code = codeGenerator.generateSwipeCode((int) startX, (int) startY, (int) endX, (int) endY, duration);
+            code = codeGenerator.generateDragCode((int) startX, (int) startY, (int) endX, (int) endY, duration);
         } else {
-            code = codeGenerator.generateSwipeCode(startX, startY, endX, endY, duration);
-        }
-        if (useXpath) {
-            NodeInfo info = (NodeInfo) target.getUserObject();
-            String xpathCode = codeGenerator.generateCode(currentDevice, info.node, false, true);
-            code = xpathCode + code;
+            code = codeGenerator.generateDragCode(startX, startY, endX, endY, duration);
         }
         codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
         execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));

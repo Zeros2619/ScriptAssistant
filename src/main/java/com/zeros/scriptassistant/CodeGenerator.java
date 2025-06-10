@@ -31,6 +31,14 @@ public class CodeGenerator {
         return ".swipe(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
     }
 
+    public String generateDragCode(double startX, double startY, double endX, double endY, double duration) {
+        return ".drag(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
+    }
+
+    public String generateDragCode(int startX, int startY, int endX, int endY, double duration) {
+        return ".drag(" + startX + ", " + startY + ", " + endX + ", " + endY + ", " + duration + ")";
+    }
+
     public String generateCode(Device device, Node node) {
         return generateCode(device, node, false, false);
     }
