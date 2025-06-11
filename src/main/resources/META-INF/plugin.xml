@@ -8,7 +8,7 @@
     <name>ScriptAssistant</name>
 
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
-    <vendor email="zeros2619@gmail.com" url="https://www.zeros2619.com">Nothing</vendor>
+    <vendor email="zeros2619@gmail.com" url="https://www.zeros2619.com">Zeros</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
@@ -21,7 +21,7 @@
     <!-- Extension points defined by the plugin.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
-        <projectService serviceInterface="com.zeros.scriptassistant.DeviceAliasConfig" serviceImplementation="com.zeros.scriptassistant.DeviceAliasConfig"/>
+        <projectService serviceImplementation="com.zeros.scriptassistant.DeviceAliasConfig"/>
         <toolWindow id="ScriptAssistant" icon="AllIcons.Toolwindows.ToolWindowHierarchy" anchor="right"
                     factoryClass="com.zeros.scriptassistant.MainToolWindow"/>
     </extensions>

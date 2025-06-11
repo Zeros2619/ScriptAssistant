@@ -1,47 +1,16 @@
 # ScriptAssistant
 
-## English
-
-This is a PyCharm plugin based on uiautomator2. It provides UI control attribute and hierarchy viewing, and supports automatic insertion of operation code into the editor.
-
-### Features:
-
-1.  **View Control Attributes and Hierarchy**: Left-click on a control to view its attributes and hierarchy.
-2.  **Generate Control Locator Code**: Right-click on a control to generate code for locating the control.
-3.  **Generate Control Click Code**: Double-left-click on a control to generate code for clicking the control.
-4.  **Generate Swipe Code (Percentage Coordinates)**: Press and drag with the left mouse button to generate swipe code using percentage coordinates.
-5.  **Generate Swipe Code (Pixel Coordinates)**: Press and drag with the right mouse button to generate swipe code using pixel coordinates.
-
-![image](https://github.com/user-attachments/assets/7b012ea5-1f5b-4290-b4f5-8ffc4b304551)
-
-### Plugin Details:
-
-* **Plugin Name**: ScriptAssistant
-* **Description**: An assistant for uiautomator2 automation scripts, including features like script recording and intelligent code completion to enhance automation script writing efficiency.
-* **Target IDE Platform**: PyCharm (PC)
-* **Supported IDE Versions**: Since build 213 up to 251.*
-
-### Project Configuration:
-
-* **Project Name**: ScriptAssistant
-* **Version**: 1.0-SNAPSHOT
-* **Gradle IntelliJ Plugin Version**: 1.8.0
-* **Target IntelliJ Version**: 2021.3.2
-
----
-
-## 中文 (Chinese)
-
 # PyCharm插件
 # 基于uiautomator2提供ui控件属性，控件层级查看，支持在编辑区自动插入操作代码。
 
 ### 功能特性:
 
 1.  **查看控件属性和层级**: 鼠标左键点击控件，查看控件属性和层级
-2.  **生成控件定位代码**: 鼠标右键点击控件，生成控件定位代码
-3.  **生成控件点击代码**: 鼠标左键双击控件，生产控件点击代码
-4.  **生成百分比坐标滑动代码**: 鼠标左键按住拖动，生成百分比坐标滑动代码
-5.  **生成像素坐标滑动代码**: 鼠标右键按住拖动，生成像素坐标滑动代码
+2.  **生成控件定位代码**: 鼠标右键点击控件，生成控件定位代码，按住ctrl键，强制使用xpath定位
+3.  **生成控件点击代码**: 鼠标左键双击控件，生成控件点击代码，按住ctrl键，强制使用xpath定位
+4.  **生成坐标点击代码**: 按住ctrl键 + 鼠标左键点击，生成百分比坐标点击代码
+5.  **生成百分比坐标滑动代码**: 鼠标左键按住拖动，生成百分比坐标滑动代码, 按住ctrl键，生成拖拽代码
+6.  **生成像素坐标滑动代码**: 鼠标右键按住拖动，生成像素坐标滑动代码，按住ctrl键，生成拖拽代码
 
 ![image](https://github.com/user-attachments/assets/7b012ea5-1f5b-4290-b4f5-8ffc4b304551)
 
@@ -55,6 +24,6 @@ This is a PyCharm plugin based on uiautomator2. It provides UI control attribute
 ### 项目配置:
 
 * **项目名称**: ScriptAssistant
-* **版本**: 1.0-SNAPSHOT
+* **版本**: 1.1-SNAPSHOT
 * **Gradle IntelliJ 插件版本**: 1.8.0
 * **目标 IntelliJ 版本**: 2021.3.2

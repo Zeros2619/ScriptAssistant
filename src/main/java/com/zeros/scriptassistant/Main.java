@@ -42,10 +42,15 @@ public class Main {
     private JLabel infoLabel;
     private JTextField aliasTF;
     private ToolManager manager;
-    private final ImagePanel.ImagePanelListener imagePanelListener = new ImagePanel.ImagePanelListener(){
+    private final ImagePanel.ImagePanelListener imagePanelListener = new ImagePanel.ImagePanelListener() {
         @Override
         public void onMousePositionChange(int imageX, int imageY) {
             mousePositionLabel.setText("Mouse Position: (" + imageX + ", " + imageY + ")");
+        }
+
+        @Override
+        public void onNodeSelected(int imageX, int imageY) {
+            manager.updateSelectedNode(nodeTree, imageX, imageY);
         }
 
         @Override
@@ -65,15 +70,11 @@ public class Main {
                 double percentY = NumberUtil.div(imageY, imagePanel.getImage().getHeight(), 2);
                 // Ctrl 键按下时，生成百分比坐标点击
                 manager.generatePercentClickCode(percentX, percentY);
-            } else {
-                manager.updateSelectedNode(nodeTree, imageX, imageY);
             }
         }
 
         @Override
         public void onRightClicked(int imageX, int imageY, boolean isCtrlPressed) {
-            // 先要选中点击位置的控件
-            manager.updateSelectedNode(nodeTree, imageX, imageY);
             if (isCtrlPressed) {
                 // Ctrl 键按下时，强制使用 XPath 生成代码
                 manager.generateCtrlSelectorCode(true);
@@ -187,12 +188,17 @@ public class Main {
         return root;
     }
 
-    public void setErrorPanel(String msg, boolean show){
+    public void setErrorPanel(String msg, boolean show) {
         errorInfoPanel.setVisible(show);
         infoLabel.setText(msg);
     }
 
     public void setDumpButtonEnable(boolean enable) {
+        if (enable) {
+            imagePanel.setListener(imagePanelListener);
+        }else{
+            imagePanel.setListener(null);
+        }
         dumpButton.setEnabled(enable);
     }
 

@@ -276,10 +276,15 @@ public class ToolManager {
     }
 
     private void execCode(String code) {
-        // 执行代码
-        System.out.println(currentDevice.u2.executeCode(code));
-        // 刷新ui
-        updateScreen(1000);
+        SwingUtilities.invokeLater(() -> {
+            main.setDumpButtonEnable(false);
+            // 执行代码
+            System.out.println(code);
+            currentDevice.u2.executeCode(code);
+            // 刷新ui
+            updateScreen(1000);
+            main.setDumpButtonEnable(true);
+        });
     }
 
     private void searchNode(DefaultMutableTreeNode root, int imageX, int imageY) {
