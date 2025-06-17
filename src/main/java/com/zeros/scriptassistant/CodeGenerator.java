@@ -80,14 +80,33 @@ public class CodeGenerator {
 
             final String line = code + (endEnter ? "\n" : "");
             // 在写操作中执行文本插入
-            WriteCommandAction.runWriteCommandAction(project, () -> {
-                document.insertString(offset, line);
-            });
+            WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, line));
 
-            // 移动光标到新插入的代码后面
-            editor.getCaretModel().moveToOffset(offset + line.length());
+            if (endEnter) {
+                // 获取当前行号
+                int lineNumber = document.getLineNumber(offset);
+                // 获取当前行的起始偏移量
+                int lineStartOffset = document.getLineStartOffset(lineNumber);
+                // 获取当前行的缩进字符串
+                CharSequence lineText = document.getCharsSequence().subSequence(lineStartOffset, offset);
+                int indentLength = 0;
+                while (indentLength < lineText.length() && Character.isWhitespace(lineText.charAt(indentLength))) {
+                    indentLength++;
+                }
+                String indent = lineText.subSequence(0, indentLength).toString();
+
+                // 在新行插入缩进
+                int newOffset = offset + line.length();
+                WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(newOffset, indent));
+                // 移动光标到新插入的缩进后面
+                editor.getCaretModel().moveToOffset(newOffset + indent.length());
+            } else {
+                // 移动光标到新插入的代码后面
+                editor.getCaretModel().moveToOffset(offset + line.length());
+            }
         }
     }
+
 
     public String getPythonSdkPath() {
         // 获取当前项目的SDK
