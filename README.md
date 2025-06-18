@@ -1,3 +1,4 @@
+# [English Doc](README_en.md)
 # ScriptAssistant
 
 # PyCharm插件
