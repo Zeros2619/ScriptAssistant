@@ -6,14 +6,37 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>ScriptAssistant</name>
-
+    <version>1.2</version>
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="zeros2619@gmail.com" url="https://www.zeros2619.com">Zeros</vendor>
 
     <!-- Description of the plugin displayed on the Plugin Page and IDE Plugin Manager.
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
-    <description>uiautomator2自动化脚本助手：包含自动化脚本录制，智能代码补全等功能，提升自动化脚本编写效率。</description>
+    <description><![CDATA[
+    <p><b>ScriptAssistant</b> - A powerful tool designed for Android automation testers and developers to enhance efficiency in writing uiautomator2 scripts.</p>
+
+    <h4>Key Features:</h4>
+    <ul>
+      <li><b>Automation Script Recording</b>: Automatically generate uiautomator2 test scripts through simple operations, reducing manual coding work</li>
+      <li><b>Intelligent Code Completion</b>: Provides smart suggestions and code completion features for uiautomator2 API</li>
+      <li><b>Development Efficiency Boost</b>: Integrates multiple convenient tools to simplify the automation script writing process</li>
+    </ul>
+
+    <p>This plugin aims to help developers and testers write and debug Android automation scripts more efficiently, especially for automation testing scenarios based on the uiautomator2 framework.</p>
+
+    <p><b>uiautomator2自动化脚本助手</b> - 专为Android自动化测试工程师和开发者设计的高效开发工具。</p>
+
+    <h4>主要功能：</h4>
+    <ul>
+      <li><b>自动化脚本录制</b>：通过简单操作自动生成uiautomator2测试脚本，减少手动编码工作</li>
+      <li><b>智能代码补全</b>：提供针对uiautomator2 API的智能提示和代码补全功能</li>
+      <li><b>提升开发效率</b>：集成多种便捷工具，简化自动化脚本编写流程</li>
+    </ul>
+
+    <p>此插件旨在帮助开发者和测试工程师更高效地编写和调试Android自动化脚本，特别适用于基于uiautomator2框架的自动化测试场景。</p>
+    ]]></description>
+    <idea-version since-build="213.0" until-build="251.*" />
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
@@ -22,7 +45,7 @@
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-extension-points.html -->
     <extensions defaultExtensionNs="com.intellij">
         <projectService serviceImplementation="com.zeros.scriptassistant.DeviceAliasConfig"/>
-        <toolWindow id="ScriptAssistant" icon="AllIcons.Toolwindows.ToolWindowHierarchy" anchor="right"
+        <toolWindow id="ScriptAssistant" icon="/META-INF/pluginIcon.svg" anchor="right"
                     factoryClass="com.zeros.scriptassistant.MainToolWindow"/>
     </extensions>
 </idea-plugin>
