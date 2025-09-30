@@ -2,6 +2,7 @@
 # ScriptAssistant
 
 # PyCharm插件
+在插件市场搜索ScriptAssistant，安装即可。
 # 基于uiautomator2提供ui控件属性，控件层级查看，支持在编辑区自动插入操作代码。
 
 ### 功能特性:

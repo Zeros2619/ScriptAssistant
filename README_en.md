@@ -1,6 +1,7 @@
 # ScriptAssistant
 
 # PyCharm Plugin
+In the plugin market, search for ScriptAssistant and install it.
 # Based on uiautomator2, it provides UI control properties and control hierarchy viewing, and supports automatically inserting operation code in the editing area.
 
 ### Features:
