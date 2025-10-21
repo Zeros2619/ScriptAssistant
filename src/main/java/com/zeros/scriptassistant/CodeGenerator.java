@@ -9,6 +9,7 @@ import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.projectRoots.Sdk;
 import com.intellij.openapi.roots.ProjectRootManager;
+import com.intellij.openapi.util.TextRange;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -111,6 +112,107 @@ public class CodeGenerator {
         });
     }
 
+    public void insertSelectorParam(String objectName, String param, String value) {
+        // 使用invokeLater确保在正确的上下文中执行
+        ApplicationManager.getApplication().invokeLater(() -> {
+            // 获取当前编辑器
+            Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+            if (editor != null) {
+                // 获取文档对象，以便修改文件内容
+                Document document = editor.getDocument();
+
+                // 获取光标所在的位置
+                int offset = editor.getCaretModel().getOffset();
+
+                // 获取当前行号
+                int lineNumber = document.getLineNumber(offset);
+                int lineStartOffset = document.getLineStartOffset(lineNumber);
+                int lineEndOffset = document.getLineEndOffset(lineNumber);
+
+                // 获取当前行内容
+                String lineText = document.getText(new TextRange(lineStartOffset, lineEndOffset)).trim();
+
+                WriteCommandAction.runWriteCommandAction(project, () -> {
+                    // Case 1: 光标在括号内
+                    if (isCursorInParentheses(document, offset)) {
+                        insertParamInParentheses(document, offset, param, value);
+                        return;
+                    }
+
+                    // Case 2: 当前行匹配 objectName(.*) 模式
+                    if (lineText.matches(objectName.replace(".", "\\.") + "\\s*\\(.*\\).*")) {
+                        insertParamInLine(document, lineStartOffset, lineEndOffset, objectName, param, value);
+                        return;
+                    }
+
+                    // Case 3: 当前行为空行，检查上一行
+                    if (lineText.isEmpty() && lineNumber > 0) {
+                        int prevLineNumber = lineNumber - 1;
+                        int prevLineStart = document.getLineStartOffset(prevLineNumber);
+                        int prevLineEnd = document.getLineEndOffset(prevLineNumber);
+                        String prevLineText = document.getText(new TextRange(prevLineStart, prevLineEnd)).trim();
+
+                        if (prevLineText.matches(objectName.replace(".", "\\.") + "\\s*\\(.*\\).*")) {
+                            insertParamInLine(document, prevLineStart, prevLineEnd, objectName, param, value);
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    private boolean isCursorInParentheses(Document document, int offset) {
+        String text = document.getText();
+        int leftParen = text.lastIndexOf("(", offset);
+        int rightParen = text.indexOf(")", leftParen - 1);
+        return leftParen != -1 && rightParen != -1 && leftParen < offset && offset <= rightParen;
+    }
+
+    private void insertParamInLine(Document document, int lineStart, int lineEnd, String objectName, String param, String value) {
+        String lineText = document.getText(new TextRange(lineStart, lineEnd));
+        int leftParenIndex = lineText.indexOf(objectName + "(") + objectName.length();
+        int rightParenIndex = lineText.indexOf(")", leftParenIndex - 1);
+
+        if (leftParenIndex != -1 && rightParenIndex != -1) {
+            String params = lineText.substring(leftParenIndex + 1, rightParenIndex).trim();
+            String newParam = param + "=\"" + value + "\"";
+
+            // 检查是否已存在该参数
+            if (params.contains(param + "=")) {
+                return; // 参数已存在，不插入
+            }
+
+            // 构造新参数字符串
+            String newParams = params.isEmpty() ? newParam : params + ", " + newParam;
+
+            // 替换括号内的内容
+            document.replaceString(lineStart + leftParenIndex + 1, lineStart + rightParenIndex, newParams);
+        }
+    }
+
+    private void insertParamInParentheses(Document document, int offset, String param, String value) {
+        // 查找括号范围
+        String text = document.getText();
+        int leftParen = text.lastIndexOf("(", offset);
+        int rightParen = text.indexOf(")", leftParen - 1);
+
+        if (leftParen != -1 && rightParen != -1) {
+            String params = document.getText(new TextRange(leftParen + 1, rightParen)).trim();
+            String newParam = param + "=\"" + value + "\"";
+
+            // 检查是否已存在该参数
+            if (params.contains(param + "=")) {
+                return; // 参数已存在，不插入
+            }
+
+            // 构造新参数字符串
+            String newParams = params.isEmpty() ? newParam : params + ", " + newParam;
+
+            // 替换括号内的内容
+            document.replaceString(leftParen + 1, rightParen, newParams);
+        }
+    }
+
 
     public String getPythonSdkPath() {
         // 获取当前项目的SDK
@@ -127,6 +229,5 @@ public class CodeGenerator {
     public String getFilePath() {
         return PathManager.getPluginsPath();
     }
-
 }
 

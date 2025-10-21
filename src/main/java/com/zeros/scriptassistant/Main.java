@@ -14,6 +14,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -32,7 +33,8 @@ public class Main {
     private JScrollPane treePanel;
     private JScrollPane valuePanel;
     private JTree nodeTree;
-    private JTable table1;
+    private JTable nodeInfoTable;
+    private DefaultTableModel tableModel;
     private JLabel mousePositionLabel;
     private JComboBox<String> devicesCombo;
     private JLabel reloadBtn;
@@ -186,6 +188,35 @@ public class Main {
 
         mainSplit.setDividerLocation(300);
         infoSplit.setDividerLocation(500);
+
+        tableModel = new DefaultTableModel(new String[][]{}, new String[]{"property", "value"});
+        nodeInfoTable.setModel(tableModel);
+        nodeInfoTable.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting() && nodeInfoTable.getSelectedRow() != -1) {
+                int row = nodeInfoTable.getSelectedRow();
+                String p = (String) tableModel.getValueAt(row, 0);
+                String v = (String) tableModel.getValueAt(row, 1);
+                String text = p + "=\"" + v + "\"";
+                Toolkit.getDefaultToolkit().getSystemClipboard()
+                        .setContents(new StringSelection(text), null);
+            }
+        });
+        nodeInfoTable.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    // Get the row at the mouse click point
+                    int row = nodeInfoTable.rowAtPoint(e.getPoint());
+                    if (row >= 0 && row < nodeInfoTable.getRowCount()) {
+                        // Select the row
+                        nodeInfoTable.setRowSelectionInterval(row, row);
+                        String p = (String) tableModel.getValueAt(row, 0);
+                        String v = (String) tableModel.getValueAt(row, 1);
+                        manager.generateAddSelectorParamCode(p, v);
+                    }
+                }
+            }
+        });
         updateDeviceInfoTable(null);
         return root;
     }
@@ -259,16 +290,12 @@ public class Main {
     }
 
     private void updateDeviceInfoTable(NodeInfo nodeInfo) {
-        String[][] data;
-        if (nodeInfo != null) {
-            data = nodeInfo.getTableArray();
-        } else {
-            data = new String[][]{};
-        }
+        // Update table data
+        String[][] data = (nodeInfo != null) ? nodeInfo.getTableArray() : new String[][]{};
 
-        DefaultTableModel tableModel = new DefaultTableModel(data, new String[]{"property", "value"});
-        table1.setModel(tableModel);
-        resizeColumnWidth(table1);
+        // Update existing model instead of creating a new one
+        tableModel.setDataVector(data, new String[]{"property", "value"});
+        resizeColumnWidth(nodeInfoTable);
     }
 
     private void resizeColumnWidth(JTable table) {

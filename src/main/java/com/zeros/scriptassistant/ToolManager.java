@@ -275,6 +275,10 @@ public class ToolManager {
         execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));
     }
 
+    public void generateAddSelectorParamCode(String param, String value) {
+        codeGenerator.insertSelectorParam(currentDevice.getAlias(), param, value);
+    }
+
     private void execCode(String code) {
         main.setDumpButtonEnable(false);
         final String[] actuallyExecCode = {code};
