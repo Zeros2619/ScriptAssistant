@@ -276,15 +276,38 @@ public class ToolManager {
     }
 
     private void execCode(String code) {
-        SwingUtilities.invokeLater(() -> {
-            main.setDumpButtonEnable(false);
-            // 执行代码
-            System.out.println(code);
-            currentDevice.u2.executeCode(code);
-            // 刷新ui
-            updateScreen(1000);
-            main.setDumpButtonEnable(true);
-        });
+        main.setDumpButtonEnable(false);
+        final String[] actuallyExecCode = {code};
+        // 创建并执行 SwingWorker
+        new SwingWorker<String, Void>() {
+            @Override
+            protected String doInBackground() throws Exception {
+                // 使用click_exists替代click，避免点击不存在的控件报错和耗时过长
+                if (actuallyExecCode[0].endsWith(".click()")){
+                    actuallyExecCode[0] = actuallyExecCode[0].replace(".click()", ".click_exists()");
+                }
+                // 在后台线程中执行耗时的 Python 代码
+                System.out.println(actuallyExecCode[0]);
+                return currentDevice.u2.executeCode(actuallyExecCode[0]);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    // 获取执行结果（如果需要）
+                    String result = get();
+                    // 在 EDT 中更新 UI
+                    updateScreen(1000);
+                } catch (Exception e) {
+                    // 处理异常情况
+                    e.printStackTrace();
+                    main.setErrorPanel("执行代码出错: " + e.getMessage(), true);
+                } finally {
+                    // 确保按钮状态被恢复
+                    main.setDumpButtonEnable(true);
+                }
+            }
+        }.execute(); // 启动 SwingWorker
     }
 
     private void searchNode(DefaultMutableTreeNode root, int imageX, int imageY) {
