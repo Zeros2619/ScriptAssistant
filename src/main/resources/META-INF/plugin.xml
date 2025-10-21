@@ -6,7 +6,7 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>ScriptAssistant</name>
-    <version>1.2</version>
+    <version>1.3</version>
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="zeros2619@gmail.com" url="https://www.zeros2619.com">Zeros</vendor>
 
@@ -14,29 +14,98 @@
          Simple HTML elements (text formatting, paragraphs, and lists) can be added inside of <![CDATA[ ]]> tag.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-description -->
     <description><![CDATA[
-    <p><b>ScriptAssistant</b> - A powerful tool designed for Android automation testers and developers to enhance efficiency in writing uiautomator2 scripts.</p>
+<p><b>uiautomator2自动化脚本助手</b> - 专为Android自动化测试工程师和开发者设计的高效开发工具。</p>
 
-    <h4>Key Features:</h4>
-    <ul>
-      <li><b>Automation Script Recording</b>: Automatically generate uiautomator2 test scripts through simple operations, reducing manual coding work</li>
-      <li><b>Intelligent Code Completion</b>: Provides smart suggestions and code completion features for uiautomator2 API</li>
-      <li><b>Development Efficiency Boost</b>: Integrates multiple convenient tools to simplify the automation script writing process</li>
-    </ul>
+<h4>主要功能：</h4>
+<ul>
+  <li><b>自动化脚本录制</b>：通过简单操作自动生成uiautomator2测试脚本，减少手动编码工作</li>
+  <li><b>智能代码补全</b>：提供针对uiautomator2 API的智能提示和代码补全功能</li>
+</ul>
 
-    <p>This plugin aims to help developers and testers write and debug Android automation scripts more efficiently, especially for automation testing scenarios based on the uiautomator2 framework.</p>
+<h4>操作指引：</h4>
+<p><b>前置要求</b>：需要在PyCharm中配置python解释器，并安装uiautomator2库</p>
 
-    <p><b>uiautomator2自动化脚本助手</b> - 专为Android自动化测试工程师和开发者设计的高效开发工具。</p>
+<p><b>顶部操作栏：</b></p>
+<ol>
+  <li>点击“刷新设备”图标，刷新当前连接的Android设备列表（需要配置adb环境变量）</li>
+  <li>点击“设备列表”下拉框，选择当前设备</li>
+  <li>连接和断开连接按钮（连接过程可能有一定耗时）</li>
+  <li>已连接状态下，会显示设备别名输入框（默认值为"d"），用于设置设备别名，生成代码时将引用此别名</li>
+  <li>dump按钮：用于获取当前界面截图和控件信息</li>
+  <li>Selector单选框：勾选时，将只生成Selector的代码</li>
+</ol>
 
-    <h4>主要功能：</h4>
-    <ul>
-      <li><b>自动化脚本录制</b>：通过简单操作自动生成uiautomator2测试脚本，减少手动编码工作</li>
-      <li><b>智能代码补全</b>：提供针对uiautomator2 API的智能提示和代码补全功能</li>
-      <li><b>提升开发效率</b>：集成多种便捷工具，简化自动化脚本编写流程</li>
-    </ul>
+<p><b>左侧界面截图区域：</b></p>
+<ol>
+  <li>查看控件属性和层级：鼠标左键点击控件，查看控件属性和层级</li>
+  <li>生成控件定位代码：鼠标右键点击控件（按住ctrl键，强制使用xpath定位）</li>
+  <li>生成控件点击代码：鼠标左键双击控件（按住ctrl键，强制使用xpath定位）</li>
+  <li>生成坐标点击代码：按住ctrl键 + 鼠标左键点击，生成百分比坐标点击代码</li>
+  <li>生成百分比坐标滑动代码：鼠标左键按住拖动（按住ctrl键，生成拖拽代码）</li>
+  <li>生成像素坐标滑动代码：鼠标右键按住拖动（按住ctrl键，生成拖拽代码）</li>
+</ol>
 
-    <p>此插件旨在帮助开发者和测试工程师更高效地编写和调试Android自动化脚本，特别适用于基于uiautomator2框架的自动化测试场景。</p>
-    ]]></description>
-    <idea-version since-build="213.0" until-build="251.*" />
+<p><b>右上控件树区域：</b></p>
+<ol>
+  <li>左键选择对应控件，截图中也将标记选中的控件范围</li>
+  <li>右键点击控件，生成对应控件的定位代码（方便在控件区域重叠时，生成指定控件的定位代码）</li>
+</ol>
+
+<p><b>右下当前选中控件信息区域：</b></p>
+<ol>
+  <li>左键选中一行控件属性时，将自动复制当前属性代码到粘贴板</li>
+  <li>右键选中一行控件属性时，将自动将控件属性插入到编辑光标所在行的定位代码中（用于添加指定定位参数）</li>
+</ol>
+
+<p>此插件旨在帮助开发者和测试工程师更高效地编写和调试Android自动化脚本，特别适用于基于uiautomator2框架的自动化测试场景。</p>
+
+<p><b>ScriptAssistant</b> - A powerful tool designed for Android automation testers and developers to enhance efficiency in writing uiautomator2 scripts.</p>
+
+<h4>Key Features:</h4>
+<ul>
+  <li><b>Automation Script Recording</b>: Automatically generates uiautomator2 test scripts through simple operations, reducing manual coding efforts.</li>
+  <li><b>Intelligent Code Completion</b>: Provides smart suggestions and code completion features for the uiautomator2 API.</li>
+</ul>
+
+<h4>Operation Guide:</h4>
+<p><b>Prerequisites</b>: Configure the Python interpreter in PyCharm and install the uiautomator2 library.</p>
+
+<p><b>Top Operation Bar:</b></p>
+<ol>
+  <li>Click the "Refresh Devices" icon to refresh the list of currently connected Android devices (requires ADB environment variables).</li>
+  <li>Click the "Device List" dropdown to select the current device.</li>
+  <li>Connect/Disconnect button (connection may take some time).</li>
+  <li>In the connected state, a device alias input box will appear (default: "d") for specifying the device alias, which will be referenced in generated code.</li>
+  <li>"Dump" button: Retrieves current interface screenshots and control information.</li>
+  <li>"Selector" checkbox: When checked, only generates Selector code.</li>
+</ol>
+
+<p><b>Left Screenshot Area:</b></p>
+<ol>
+  <li>View control properties and hierarchy: Left-click on a control to view its properties and hierarchy.</li>
+  <li>Generate control positioning code: Right-click on a control (hold Ctrl to force XPath positioning).</li>
+  <li>Generate control click code: Double-click a control with the left mouse button (hold Ctrl to force XPath positioning).</li>
+  <li>Generate coordinate click code: Hold Ctrl + left-click to generate percentage coordinate click code.</li>
+  <li>Generate percentage coordinate swipe code: Hold left mouse button and drag (hold Ctrl to generate drag code).</li>
+  <li>Generate pixel coordinate swipe code: Hold right mouse button and drag (hold Ctrl to generate drag code).</li>
+</ol>
+
+<p><b>Upper Right Control Tree Area:</b></p>
+<ol>
+  <li>Left-click to select a control; the selected control range will be marked in the screenshot.</li>
+  <li>Right-click on a control to generate its positioning code (useful for overlapping controls).</li>
+</ol>
+
+<p><b>Lower Right Selected Control Information Area:</b></p>
+<ol>
+  <li>Left-click on a row of control properties to automatically copy the property code to the clipboard.</li>
+  <li>Right-click on a row of control properties to automatically insert the property into the positioning code at the cursor position (for adding specific positioning parameters).</li>
+</ol>
+
+<p>This plugin aims to help developers and testers write and debug Android automation scripts more efficiently, especially for automation testing scenarios based on the uiautomator2 framework.</p>
+]]>
+</description>
+    <idea-version since-build="213.0" until-build="251.*"/>
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
