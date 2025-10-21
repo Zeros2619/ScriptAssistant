@@ -86,6 +86,8 @@ public class Main {
         @Override
         public void onMouseWheel() {
             imagePanel.paintRect(null);
+            // 设置为未选取
+            nodeTree.setSelectionPath(null);
         }
 
         @Override

@@ -141,7 +141,6 @@ public class ImagePanel extends JPanel {
                     return;
                 }
                 listener.onMouseWheel();
-                paintRect(null);
             }
         });
     }
