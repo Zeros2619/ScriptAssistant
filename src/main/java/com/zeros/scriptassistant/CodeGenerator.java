@@ -1,5 +1,6 @@
 package com.zeros.scriptassistant;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.command.WriteCommandAction;
 import com.intellij.openapi.editor.Document;
@@ -69,42 +70,45 @@ public class CodeGenerator {
     }
 
     public void insert(String code, boolean endEnter) {
-        // 获取当前编辑器
-        Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
-        if (editor != null) {
-            // 获取文档对象，以便修改文件内容
-            Document document = editor.getDocument();
+        // 使用invokeLater确保在正确的上下文中执行
+        ApplicationManager.getApplication().invokeLater(() -> {
+            // 获取当前编辑器
+            Editor editor = FileEditorManager.getInstance(project).getSelectedTextEditor();
+            if (editor != null) {
+                // 获取文档对象，以便修改文件内容
+                Document document = editor.getDocument();
 
-            // 获取光标所在的位置
-            int offset = editor.getCaretModel().getOffset();
+                // 获取光标所在的位置
+                int offset = editor.getCaretModel().getOffset();
 
-            final String line = code + (endEnter ? "\n" : "");
-            // 在写操作中执行文本插入
-            WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, line));
+                final String line = code + (endEnter ? "\n" : "");
+                // 在写操作中执行文本插入
+                WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(offset, line));
 
-            if (endEnter) {
-                // 获取当前行号
-                int lineNumber = document.getLineNumber(offset);
-                // 获取当前行的起始偏移量
-                int lineStartOffset = document.getLineStartOffset(lineNumber);
-                // 获取当前行的缩进字符串
-                CharSequence lineText = document.getCharsSequence().subSequence(lineStartOffset, offset);
-                int indentLength = 0;
-                while (indentLength < lineText.length() && Character.isWhitespace(lineText.charAt(indentLength))) {
-                    indentLength++;
+                if (endEnter) {
+                    // 获取当前行号
+                    int lineNumber = document.getLineNumber(offset);
+                    // 获取当前行的起始偏移量
+                    int lineStartOffset = document.getLineStartOffset(lineNumber);
+                    // 获取当前行的缩进字符串
+                    CharSequence lineText = document.getCharsSequence().subSequence(lineStartOffset, offset);
+                    int indentLength = 0;
+                    while (indentLength < lineText.length() && Character.isWhitespace(lineText.charAt(indentLength))) {
+                        indentLength++;
+                    }
+                    String indent = lineText.subSequence(0, indentLength).toString();
+
+                    // 在新行插入缩进
+                    int newOffset = offset + line.length();
+                    WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(newOffset, indent));
+                    // 移动光标到新插入的缩进后面
+                    editor.getCaretModel().moveToOffset(newOffset + indent.length());
+                } else {
+                    // 移动光标到新插入的代码后面
+                    editor.getCaretModel().moveToOffset(offset + line.length());
                 }
-                String indent = lineText.subSequence(0, indentLength).toString();
-
-                // 在新行插入缩进
-                int newOffset = offset + line.length();
-                WriteCommandAction.runWriteCommandAction(project, () -> document.insertString(newOffset, indent));
-                // 移动光标到新插入的缩进后面
-                editor.getCaretModel().moveToOffset(newOffset + indent.length());
-            } else {
-                // 移动光标到新插入的代码后面
-                editor.getCaretModel().moveToOffset(offset + line.length());
             }
-        }
+        });
     }
 
 
