@@ -30,34 +30,33 @@
 | 2 | Click the "Device List" dropdown to select the current device. | 点击“设备列表”下拉框，选择当前设备。 |
 | 3 | Connect/Disconnect button (connection may take some time). | 连接和断开连接按钮（连接过程可能有一定耗时）。 |
 | 4 | In the connected state, a device alias input box will appear (default: "d") for specifying the device alias, which will be referenced in generated code. | 已连接状态下，会显示设备别名输入框（默认值为"d"），用于设置设备别名，生成代码时将引用此别名。 |
-| 5 | "Dump" button: Retrieves current interface screenshots and control information. | Dump按钮：用于获取当前界面截图和控件信息。 |
+| 5 | "Dump" button: Retrieves current interface screenshots and widget information. | Dump按钮：用于获取当前界面截图和控件信息。 |
 | 6 | "Selector" checkbox: When checked, only generates Selector code. | Selector单选框：勾选时，将只生成Selector的代码。 |
 
 
 ### 2. Left Screenshot Area / 左侧界面截图区域
 | 操作步骤 | 英文描述 | 中文描述 |
 |----------|------------------------------|------------------------------|
-| 1 | View control properties and hierarchy: Left-click on a control to view its properties and hierarchy. | 查看控件属性和层级：鼠标左键点击控件，查看控件属性和层级。 |
-| 2 | Generate control positioning code: Right-click on a control (hold Ctrl to force XPath positioning). | 生成控件定位代码：鼠标右键点击控件（按住Ctrl键，强制使用XPath定位）。 |
-| 3 | Generate control click code: Double-click a control with the left mouse button (hold Ctrl to force XPath positioning). | 生成控件点击代码：鼠标左键双击控件（按住Ctrl键，强制使用XPath定位）。 |
+| 1 | View widget properties and hierarchy: Left-click on a widget to view its properties and hierarchy. | 查看控件属性和层级：鼠标左键点击控件，查看控件属性和层级。 |
+| 2 | Generate widget positioning code: Right-click on a widget (hold Ctrl to force XPath positioning). | 生成控件定位代码：鼠标右键点击控件（按住Ctrl键，强制使用XPath定位）。 |
+| 3 | Generate widget click code: Double-click a widget with the left mouse button (hold Ctrl to force XPath positioning). | 生成控件点击代码：鼠标左键双击控件（按住Ctrl键，强制使用XPath定位）。 |
 | 4 | Generate coordinate click code: Hold Ctrl + left-click to generate percentage coordinate click code. | 生成坐标点击代码：按住Ctrl键 + 鼠标左键点击，生成百分比坐标点击代码。 |
 | 5 | Generate percentage coordinate swipe code: Hold left mouse button and drag (hold Ctrl to generate drag code). | 生成百分比坐标滑动代码：鼠标左键按住拖动（按住Ctrl键，生成拖拽代码）。 |
 | 6 | Generate pixel coordinate swipe code: Hold right mouse button and drag (hold Ctrl to generate drag code). | 生成像素坐标滑动代码：鼠标右键按住拖动（按住Ctrl键，生成拖拽代码）。 |
 
 
-### 3. Upper Right Control Tree Area / 右上控件树区域
+### 3. Upper Right Widget Tree Area / 右上控件树区域
 | 操作步骤 | 英文描述 | 中文描述 |
 |----------|------------------------------|------------------------------|
-| 1 | Left-click to select a control; the selected control range will be marked in the screenshot. | 左键选择对应控件，截图中也将标记选中的控件范围。 |
-| 2 | Right-click on a control to generate its positioning code (useful for overlapping controls). | 右键点击控件，生成对应控件的定位代码（方便在控件区域重叠时，生成指定控件的定位代码）。 |
+| 1 | Left-click to select a widget; the selected widget range will be marked in the screenshot. | 左键选择对应控件，截图中也将标记选中的控件范围。 |
+| 2 | Right-click on a widget to generate its positioning code (useful for overlapping widgets). | 右键点击控件，生成对应控件的定位代码（方便在控件区域重叠时，生成指定控件的定位代码）。 |
 
 
-### 4. Lower Right Selected Control Information Area / 右下当前选中控件信息区域
+### 4. Lower Right Selected Widget Information Area / 右下当前选中控件信息区域
 | 操作步骤 | 英文描述 | 中文描述 |
 |----------|------------------------------|------------------------------|
-| 1 | Left-click on a row of control properties to automatically copy the property code to the clipboard. | 左键选中一行控件属性时，将自动复制当前属性代码到粘贴板。 |
-| 2 | Right-click on a row of control properties to automatically insert the property into the positioning code at the cursor position (for adding specific positioning parameters). | 右键选中一行控件属性时，将自动将控件属性插入到编辑光标所在行的定位代码中（用于添加指定定位参数）。 |
-
+| 1 | Left-click on a row of widget properties to automatically copy the property code to the clipboard. | 左键选中一行控件属性时，将自动复制当前属性代码到粘贴板。 |
+| 2 | Right-click on a row of widget properties to automatically insert the property into the positioning code at the cursor position (for adding specific positioning parameters). | 右键选中一行控件属性时，将自动将控件属性插入到编辑光标所在行的定位代码中（用于添加指定定位参数）。 |
 
 
 ### 插件详情:
@@ -70,6 +69,6 @@
 ### 项目配置:
 
 * **项目名称**: ScriptAssistant
-* **版本**: 1.1-SNAPSHOT
+* **版本**: 1.3-SNAPSHOT
 * **Gradle IntelliJ 插件版本**: 1.8.0
 * **目标 IntelliJ 版本**: 2021.3.2
