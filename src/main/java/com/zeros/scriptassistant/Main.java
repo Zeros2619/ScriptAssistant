@@ -194,9 +194,8 @@ public class Main {
         nodeInfoTable.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting() && nodeInfoTable.getSelectedRow() != -1) {
                 int row = nodeInfoTable.getSelectedRow();
-                String p = (String) tableModel.getValueAt(row, 0);
                 String v = (String) tableModel.getValueAt(row, 1);
-                String text = p + "=\"" + v + "\"";
+                String text = "\"" + v + "\"";
                 Toolkit.getDefaultToolkit().getSystemClipboard()
                         .setContents(new StringSelection(text), null);
             }
