@@ -105,7 +105,6 @@
 
 <p>此插件旨在帮助开发者和测试工程师更高效地编写和调试Android自动化脚本，特别适用于基于uiautomator2框架的自动化测试场景。</p>
 ]]></description>
-    <idea-version since-build="213.0" until-build="253.*"/>
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>
