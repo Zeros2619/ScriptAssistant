@@ -152,6 +152,38 @@
           </grid>
         </children>
       </splitpane>
+      <grid id="4c45b" binding="bottom" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="1ed54" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints border-constraint="First"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="88612" class="javax.swing.JLabel">
+                <constraints/>
+                <properties>
+                  <text value="Code:"/>
+                </properties>
+              </component>
+              <component id="1b256" class="javax.swing.JTextField" binding="matchCodeTF">
+                <constraints/>
+                <properties>
+                  <preferredSize width="240" height="34"/>
+                </properties>
+              </component>
+              <component id="8c83e" class="javax.swing.JButton" binding="matchBtn">
+                <constraints/>
+                <properties>
+                  <text value="Match"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

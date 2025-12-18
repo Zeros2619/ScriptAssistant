@@ -1,5 +1,8 @@
 package com.zeros.scriptassistant;
 
+import cn.hutool.core.util.NumberUtil;
+
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -62,6 +65,26 @@ public class U2 {
         executeCode("");
         executeCode("");
         executeCode("");
+    }
+
+    public Rectangle getNodeBounds(String code) {
+        String result = executeCode("print(" + code + ".info['bounds'])");
+        executeCode("");
+        if (result == null) {
+            return null;
+        }
+        System.out.println(result);
+        // {'bottom': 1555, 'left': 296, 'right': 540, 'top': 1278}
+        // 判断格式是否正确
+        if (!result.contains("'left': ") || !result.contains("'top': ") || !result.contains("'right': ") || !result.contains("'bottom': ")) {
+            return null;
+        }
+        // 解析结果
+        int left = NumberUtil.parseInt(result.split("'left': ")[1].split(",")[0]);
+        int top = NumberUtil.parseInt(result.split("'top': ")[1].split("}")[0]);
+        int right = NumberUtil.parseInt(result.split("'right': ")[1].split(",")[0]);
+        int bottom = NumberUtil.parseInt(result.split("'bottom': ")[1].split(",")[0]);
+        return new Rectangle(left, top, right-left, bottom-top);
     }
 
     public void close() {

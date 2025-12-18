@@ -11,6 +11,7 @@ import java.util.Set;
 public class ImagePanel extends JPanel {
     private BufferedImage image;
     private Rectangle rect;
+    private Rectangle greenRect;
     private int[] line;
 
     private int x;
@@ -75,6 +76,7 @@ public class ImagePanel extends JPanel {
                     // 画线
                     line = new int[]{pressX, pressY, releaseX, releaseY};
                     rect = null;
+                    greenRect = null;
                     double duration = NumberUtil.div(System.currentTimeMillis() - pressTime, 1000, 2);
                     if (rightBtn) {
                         listener.onSwipe(start.x, start.y, end.x, end.y, duration, isCtrlPressed);
@@ -181,6 +183,16 @@ public class ImagePanel extends JPanel {
         repaint();
     }
 
+    public void paintGreenRect(NodeInfo info) {
+        if (info == null) {
+            greenRect = null;
+        } else {
+            greenRect = new Rectangle(info.bounds.x, info.bounds.y, info.bounds.width, info.bounds.height);
+        }
+        line = null;
+        repaint();
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -215,6 +227,12 @@ public class ImagePanel extends JPanel {
             g2d.setColor(Color.RED);
             g2d.setStroke(new BasicStroke(2));
             Rectangle scaleRect = scaleRect(rect);
+            g2d.drawRect(scaleRect.x, scaleRect.y, scaleRect.width, scaleRect.height);
+        }
+        if (greenRect != null) {
+            g2d.setColor(Color.GREEN);
+            g2d.setStroke(new BasicStroke(2));
+            Rectangle scaleRect = scaleRect(greenRect);
             g2d.drawRect(scaleRect.x, scaleRect.y, scaleRect.width, scaleRect.height);
         }
     }

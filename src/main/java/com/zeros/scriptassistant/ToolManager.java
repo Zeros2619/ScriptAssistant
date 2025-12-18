@@ -1,6 +1,7 @@
 package com.zeros.scriptassistant;
 
 import cn.hutool.core.thread.ThreadUtil;
+import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.project.Project;
 
 import javax.imageio.ImageIO;
@@ -9,6 +10,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -94,6 +96,7 @@ public class ToolManager {
         new Thread(() -> {
             main.setAlias(currentDevice.getAlias());
             main.paintRect(null);
+            main.paintGreenRect(null);
             BufferedImage image = null;
             try {
                 image = ImageIO.read(new ByteArrayInputStream(currentDevice.screenshot));
@@ -131,6 +134,7 @@ public class ToolManager {
 
     public void updateScreenSync() {
         main.paintRect(null);
+        main.paintGreenRect(null);
         CountDownLatch latch = new CountDownLatch(2);
         currentDevice.dumpUI();
         new Thread(() -> {
@@ -190,6 +194,10 @@ public class ToolManager {
             TreePath path = new TreePath(nodes);
             System.out.println(path);   //路径
             tree.setSelectionPath(new TreePath(nodes));
+
+            NodeInfo info = (NodeInfo) target.getUserObject();
+            String code = codeGenerator.generateCode(currentDevice, info.node, false, false);
+            main.setMatchCodeTF(codeGenerator.getCompletedCode(currentDevice.getAlias(), code));
         }
     }
 
@@ -335,5 +343,26 @@ public class ToolManager {
             return;
         }
         currentDevice.setAlias(alias);
+    }
+
+    public void matchNodeByCode() {
+        String code = main.getMatchCodeTFText();
+        if (StrUtil.isBlank(code)) {
+            main.setErrorPanel("can not find target or invalid code", true);
+            return;
+        }
+        // 执行匹配代码
+        code = code.replace(currentDevice.getAlias(), Device.OBJECT_NAME);
+        Rectangle nodeBounds = currentDevice.u2.getNodeBounds(code);
+        main.setMatchCodeTFColor(nodeBounds == null);
+        if (nodeBounds == null) {
+            main.setErrorPanel("can not find target or invalid code", true);
+            return;
+        }
+        System.out.println(nodeBounds);
+        NodeInfo target1 = new NodeInfo("target");
+        target1.bounds = nodeBounds;
+        target1.area = nodeBounds.width * nodeBounds.height;
+        main.paintGreenRect(target1);
     }
 }

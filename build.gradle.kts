@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.zeros.scriptassistant"
-version = "1.3-SNAPSHOT"
+version = "1.4-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -33,7 +33,7 @@ tasks {
 
     patchPluginXml {
         sinceBuild.set("213")
-        untilBuild.set("251.*")
+        untilBuild.set("253.*")
     }
 
     signPlugin {

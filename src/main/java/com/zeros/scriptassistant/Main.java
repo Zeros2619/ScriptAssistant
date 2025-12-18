@@ -43,6 +43,9 @@ public class Main {
     private JPanel errorInfoPanel;
     private JLabel infoLabel;
     private JTextField aliasTF;
+    private JPanel bottom;
+    private JTextField matchCodeTF;
+    private JButton matchBtn;
     private ToolManager manager;
     private final ImagePanel.ImagePanelListener imagePanelListener = new ImagePanel.ImagePanelListener() {
         @Override
@@ -88,6 +91,7 @@ public class Main {
         @Override
         public void onMouseWheel() {
             imagePanel.paintRect(null);
+            imagePanel.paintGreenRect(null);
             // 设置为未选取
             nodeTree.setSelectionPath(null);
         }
@@ -216,6 +220,13 @@ public class Main {
                 }
             }
         });
+
+        matchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                manager.matchNodeByCode();
+            }
+        });
         updateDeviceInfoTable(null);
         return root;
     }
@@ -336,6 +347,7 @@ public class Main {
                     // 控件节点被选中时，更新属性表和绘制控件矩形框
                     updateDeviceInfoTable(nodeInfo);
                     imagePanel.paintRect(nodeInfo);
+                    imagePanel.paintGreenRect(null);
                 }
             });
             DefaultTreeCellRenderer renderer = new DefaultTreeCellRenderer();
@@ -361,6 +373,7 @@ public class Main {
         nodeTree.setModel(model);
         model.reload();
         paintRect(null);
+        paintGreenRect(null);
     }
 
     public void displayImage(BufferedImage img, Set<Rectangle> allNodeRect) {
@@ -370,6 +383,27 @@ public class Main {
 
     public void paintRect(NodeInfo nodeInfo) {
         imagePanel.paintRect(nodeInfo);
+    }
+
+    public void paintGreenRect(NodeInfo nodeInfo) {
+        imagePanel.paintGreenRect(nodeInfo);
+    }
+
+    public String getMatchCodeTFText() {
+        return matchCodeTF.getText();
+    }
+
+    public void setMatchCodeTF(String code) {
+        setMatchCodeTFColor(true);
+        matchCodeTF.setText(code);
+    }
+
+    public void setMatchCodeTFColor(boolean status) {
+        if (!status) {
+            matchCodeTF.setForeground(Color.RED);
+        } else {
+            matchCodeTF.setForeground(Color.WHITE);
+        }
     }
 
     public void displayImage(File file) {
