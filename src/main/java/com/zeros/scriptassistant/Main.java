@@ -221,6 +221,13 @@ public class Main {
             }
         });
 
+        matchCodeTF.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                setMatchCodeTFColor(true);
+            }
+        });
         matchBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -232,8 +239,22 @@ public class Main {
     }
 
     public void setErrorPanel(String msg, boolean show) {
+        setErrorPanel(msg, show, 3000);
+    }
+
+    public void setErrorPanel(String msg, boolean show, int timeout) {
         errorInfoPanel.setVisible(show);
         infoLabel.setText(msg);
+        if (timeout > 0) {
+            Timer timer = new Timer(timeout, e -> dismissErrorPanel());
+            timer.setRepeats(false);
+            timer.start();
+        }
+    }
+
+    public void dismissErrorPanel() {
+        errorInfoPanel.setVisible(false);
+        infoLabel.setText("");
     }
 
     public void setDumpButtonEnable(boolean enable) {
@@ -404,6 +425,10 @@ public class Main {
         } else {
             matchCodeTF.setForeground(Color.WHITE);
         }
+    }
+
+    public void setMatchBtnEnabled(boolean status) {
+        matchBtn.setEnabled(status);
     }
 
     public void displayImage(File file) {

@@ -157,27 +157,27 @@
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="1ed54" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+          <grid id="1ed54" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="First"/>
             <properties/>
             <border type="none"/>
             <children>
               <component id="88612" class="javax.swing.JLabel">
-                <constraints/>
+                <constraints border-constraint="West"/>
                 <properties>
                   <text value="Code:"/>
                 </properties>
               </component>
               <component id="1b256" class="javax.swing.JTextField" binding="matchCodeTF">
-                <constraints/>
+                <constraints border-constraint="Center"/>
                 <properties>
                   <preferredSize width="240" height="34"/>
                 </properties>
               </component>
               <component id="8c83e" class="javax.swing.JButton" binding="matchBtn">
-                <constraints/>
+                <constraints border-constraint="East"/>
                 <properties>
-                  <text value="Match"/>
+                  <text value="Find"/>
                 </properties>
               </component>
             </children>

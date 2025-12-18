@@ -313,7 +313,7 @@ public class ToolManager {
                 } catch (Exception e) {
                     // 处理异常情况
                     e.printStackTrace();
-                    main.setErrorPanel("执行代码出错: " + e.getMessage(), true);
+                    main.setErrorPanel("exec code error: " + e.getMessage(), true);
                 } finally {
                     // 确保按钮状态被恢复
                     main.setDumpButtonEnable(true);
@@ -353,8 +353,10 @@ public class ToolManager {
         }
         // 执行匹配代码
         code = code.replace(currentDevice.getAlias(), Device.OBJECT_NAME);
+        main.setMatchBtnEnabled(false);
         Rectangle nodeBounds = currentDevice.u2.getNodeBounds(code);
-        main.setMatchCodeTFColor(nodeBounds == null);
+        main.setMatchBtnEnabled(true);
+        main.setMatchCodeTFColor(nodeBounds != null);
         if (nodeBounds == null) {
             main.setErrorPanel("can not find target or invalid code", true);
             return;
