@@ -351,9 +351,10 @@ public class ToolManager {
             main.setErrorPanel("can not find target or invalid code", true);
             return;
         }
-        // 执行匹配代码
-        code = code.replace(currentDevice.getAlias(), Device.OBJECT_NAME);
+        // 替换别名， 加上括号防止替换到其他代码
+        code = code.replace(currentDevice.getAlias() + "(", Device.OBJECT_NAME + "(");
         main.setMatchBtnEnabled(false);
+        // 执行匹配代码，获取控件位置
         Rectangle nodeBounds = currentDevice.u2.getNodeBounds(code);
         main.setMatchBtnEnabled(true);
         main.setMatchCodeTFColor(nodeBounds != null);

@@ -27,7 +27,6 @@
                     <properties>
                       <horizontalAlignment value="0"/>
                       <horizontalTextPosition value="0"/>
-                      <icon value="reload_16.png"/>
                       <maximumSize width="30" height="30"/>
                       <minimumSize width="30" height="30"/>
                       <preferredSize width="30" height="30"/>

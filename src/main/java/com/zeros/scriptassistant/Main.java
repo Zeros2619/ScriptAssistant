@@ -1,6 +1,7 @@
 package com.zeros.scriptassistant;
 
 import cn.hutool.core.util.NumberUtil;
+import com.intellij.openapi.util.IconLoader;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -109,6 +110,8 @@ public class Main {
 
     public JPanel getRoot(ToolManager manager) {
         this.manager = manager;
+        Icon icon = IconLoader.getIcon("/reload.svg", Main.class);
+        reloadBtn.setIcon(icon);
         imagePanel = new ImagePanel();
         imagePanel.setListener(imagePanelListener);
         viewPanel.add(imagePanel);
