@@ -16,50 +16,6 @@
     <description><![CDATA[
 <p><b>ScriptAssistant</b> - A powerful tool designed for Android automation testers and developers to enhance efficiency in writing uiautomator2 scripts.</p>
 
-<h4>Key Features:</h4>
-<ul>
-  <li><b>Automation Script Recording</b>: Automatically generates uiautomator2 test scripts through simple operations, reducing manual coding efforts.</li>
-  <li><b>Intelligent Code Completion</b>: Provides smart suggestions and code completion features for the uiautomator2 API.</li>
-</ul>
-
-<h4>Operation Guide:</h4>
-<p><b>Prerequisites</b>: Configure the Python interpreter in PyCharm and install the uiautomator2 library.</p>
-
-<p><b>Top Operation Bar:</b></p>
-<ol>
-  <li>Click the "Refresh Devices" icon to refresh the list of currently connected Android devices (requires ADB environment variables).</li>
-  <li>Click the "Device List" dropdown to select the current device.</li>
-  <li>Connect/Disconnect button (connection may take some time).</li>
-  <li>In the connected state, a device alias input box will appear (default: "d") for specifying the device alias, which will be referenced in generated code.</li>
-  <li>"Dump" button: Retrieves current interface screenshots and widget information.</li>
-  <li>"Selector" checkbox: When checked, only generates Selector code.</li>
-</ol>
-
-<p><b>Left Screenshot Area:</b></p>
-<ol>
-  <li>View widget properties and hierarchy: Left-click on a widget to view its properties and hierarchy.</li>
-  <li>Generate widget positioning code: Right-click on a widget (hold Ctrl to force XPath positioning).</li>
-  <li>Generate widget click code: Double-click a widget with the left mouse button (hold Ctrl to force XPath positioning).</li>
-  <li>Generate coordinate click code: Hold Ctrl + left-click to generate percentage coordinate click code.</li>
-  <li>Generate percentage coordinate swipe code: Hold left mouse button and drag (hold Ctrl to generate drag code).</li>
-  <li>Generate pixel coordinate swipe code: Hold right mouse button and drag (hold Ctrl to generate drag code).</li>
-</ol>
-
-<p><b>Upper Right Widget Tree Area:</b></p>
-<ol>
-  <li>Left-click to select a widget; the selected widget range will be marked in the screenshot.</li>
-  <li>Right-click on a widget to generate its positioning code (useful for overlapping widgets).</li>
-</ol>
-
-<p><b>Lower Right Selected Widget Information Area:</b></p>
-<ol>
-  <li>Left-click on a row of widget properties to automatically copy the property code to the clipboard.</li>
-  <li>Right-click on a row of widget properties to automatically insert the property into the positioning code at the cursor position (for adding specific positioning parameters).</li>
-</ol>
-
-<p>This plugin aims to help developers and testers write and debug Android automation scripts more efficiently, especially for automation testing scenarios based on the uiautomator2 framework.</p>
-
-
 <p><b>uiautomator2自动化脚本助手</b> - 专为Android自动化测试工程师和开发者设计的高效开发工具。</p>
 
 <h4>主要功能：</h4>
@@ -103,7 +59,55 @@
   <li>右键选中一行控件属性时，将自动将控件属性插入到编辑光标所在行的定位代码中（用于添加指定定位参数）</li>
 </ol>
 
+<p><b>底部操作栏：</b></p>
+<ol>
+  <li>显示已选中控件的定位代码</li>
+  <li>Find按钮通过定位代码查找“真实设备当前界面”中对应的控件位置，显示在工具界面上</li>
+</ol>
 <p>此插件旨在帮助开发者和测试工程师更高效地编写和调试Android自动化脚本，特别适用于基于uiautomator2框架的自动化测试场景。</p>
+
+<h4>Key Features:</h4>
+<ul>
+  <li><b>Automation Script Recording</b>: Automatically generates uiautomator2 test scripts through simple operations, reducing manual coding efforts.</li>
+  <li><b>Intelligent Code Completion</b>: Provides smart suggestions and code completion features for the uiautomator2 API.</li>
+</ul>
+
+<h4>Operation Guide:</h4>
+<p><b>Prerequisites</b>: Configure the Python interpreter in PyCharm and install the uiautomator2 library.</p>
+
+<p><b>Top Operation Bar:</b></p>
+<ol>
+  <li>Click the "Refresh Devices" icon to refresh the list of currently connected Android devices (requires ADB environment variables).</li>
+  <li>Click the "Device List" dropdown to select the current device.</li>
+  <li>Connect/Disconnect button (connection may take some time).</li>
+  <li>In the connected state, a device alias input box will appear (default: "d") for specifying the device alias, which will be referenced in generated code.</li>
+  <li>"Dump" button: Retrieves current interface screenshots and widget information.</li>
+  <li>"Selector" checkbox: When checked, only generates Selector code.</li>
+</ol>
+
+<p><b>Left Screenshot Area:</b></p>
+<ol>
+  <li>View widget properties and hierarchy: Left-click on a widget to view its properties and hierarchy.</li>
+  <li>Generate widget positioning code: Right-click on a widget (hold Ctrl to force XPath positioning).</li>
+  <li>Generate widget click code: Double-click a widget with the left mouse button (hold Ctrl to force XPath positioning).</li>
+  <li>Generate coordinate click code: Hold Ctrl + left-click to generate percentage coordinate click code.</li>
+  <li>Generate percentage coordinate swipe code: Hold left mouse button and drag (hold Ctrl to generate drag code).</li>
+  <li>Generate pixel coordinate swipe code: Hold right mouse button and drag (hold Ctrl to generate drag code).</li>
+</ol>
+
+<p><b>Upper Right Widget Tree Area:</b></p>
+<ol>
+  <li>Left-click to select a widget; the selected widget range will be marked in the screenshot.</li>
+  <li>Right-click on a widget to generate its positioning code (useful for overlapping widgets).</li>
+</ol>
+
+<p><b>Lower Right Selected Widget Information Area:</b></p>
+<ol>
+  <li>Left-click on a row of widget properties to automatically copy the property code to the clipboard.</li>
+  <li>Right-click on a row of widget properties to automatically insert the property into the positioning code at the cursor position (for adding specific positioning parameters).</li>
+</ol>
+
+<p>This plugin aims to help developers and testers write and debug Android automation scripts more efficiently, especially for automation testing scenarios based on the uiautomator2 framework.</p>
 ]]></description>
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
