@@ -358,6 +358,7 @@ public class ToolManager {
         }
         // 替换别名， 加上括号防止替换到其他代码
         code = code.replace(currentDevice.getAlias() + "(", Device.OBJECT_NAME + "(");
+        code = code.replace(currentDevice.getAlias() + ".xpath(", Device.OBJECT_NAME + ".xpath(");
         main.setMatchBtnEnabled(false);
         // 执行匹配代码，获取控件位置
         Rectangle nodeBounds = currentDevice.u2.getNodeBounds(code);
