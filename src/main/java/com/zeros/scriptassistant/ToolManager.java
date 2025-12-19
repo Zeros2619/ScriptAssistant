@@ -123,12 +123,12 @@ public class ToolManager {
             return;
         }
         new Thread(() -> {
-            main.setDumpButtonEnable(false);
+            main.setAllViewEnabled(false);
             if (delay > 0) {
                 ThreadUtil.sleep(delay);
             }
             updateScreenSync();
-            main.setDumpButtonEnable(true);
+            main.setAllViewEnabled(true);
         }).start();
     }
 
@@ -293,7 +293,7 @@ public class ToolManager {
     }
 
     private void execCode(String code) {
-        main.setDumpButtonEnable(false);
+        main.setAllViewEnabled(false);
         final String[] actuallyExecCode = {code};
         // 创建并执行 SwingWorker
         new SwingWorker<String, Void>() {
@@ -321,7 +321,7 @@ public class ToolManager {
                     main.setErrorPanel("exec code error: " + e.getMessage(), true);
                 } finally {
                     // 确保按钮状态被恢复
-                    main.setDumpButtonEnable(true);
+                    main.setAllViewEnabled(true);
                 }
             }
         }.execute(); // 启动 SwingWorker
@@ -366,6 +366,8 @@ public class ToolManager {
         main.setMatchCodeTFColor(nodeBounds != null);
         if (nodeBounds == null) {
             main.setErrorPanel("can not find target or invalid code", true);
+            // 手机界面已更新了，工具界面还没更新，会困惑为什么找不到控件
+            updateScreen();
             return;
         }
         System.out.println(nodeBounds);

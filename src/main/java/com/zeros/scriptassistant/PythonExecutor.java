@@ -33,7 +33,7 @@ public class PythonExecutor {
         return executeCode(code, 0);
     }
 
-    public String executeCode(String code, int indentLevel) throws IOException {
+    public synchronized String executeCode(String code, int indentLevel) throws IOException {
         StringBuilder indentedCode = new StringBuilder();
         for (int i = 0; i < indentLevel; i++) {
             indentedCode.append("    "); // 每次缩进是4个空格
@@ -46,8 +46,13 @@ public class PythonExecutor {
 
         // 读取输出
         StringBuilder output = new StringBuilder();
+        int timeout = 10000;
         while (!reader.ready()){
             ThreadUtil.sleep(10);
+            timeout -= 10;
+            if(timeout <= 0){
+                break;
+            }
             if(code.equals("exit()")){
                 break;
             }

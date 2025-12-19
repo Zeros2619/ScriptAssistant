@@ -147,8 +147,8 @@ public class Main {
                     String item = (String) devicesCombo.getSelectedItem();
                     boolean connected = manager.connectDevice(item);
                     if (connected) {
-                        manager.updateScreen();
                         setConnectedUIState();
+                        manager.updateScreen();
                     }
                 } else {
                     manager.disconnectDevice();
@@ -269,11 +269,20 @@ public class Main {
         dumpButton.setEnabled(enable);
     }
 
+    public void setAllViewEnabled(boolean enable) {
+        setDumpButtonEnable(enable);
+        aliasTF.setEnabled(enable);
+        devicesCombo.setEnabled(enable);
+        connectBtn.setEnabled(enable);
+        matchCodeTF.setEnabled(enable);
+        matchBtn.setEnabled(enable);
+    }
+
     public void setConnectedUIState() {
         aliasTF.setVisible(true);
         connectBtn.setSelected(false);
         connectBtn.setText("disconnect");
-        dumpButton.setEnabled(true);
+//        dumpButton.setEnabled(true);
     }
 
     public void setDisconnectUIState() {
