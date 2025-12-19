@@ -182,6 +182,7 @@ public class ToolManager {
 
     public void setTarget(DefaultMutableTreeNode target) {
         this.target = target;
+        updateCodeMatchTF();
     }
 
     public void updateSelectedNode(JTree tree, int imageX, int imageY) {
@@ -194,7 +195,11 @@ public class ToolManager {
             TreePath path = new TreePath(nodes);
             System.out.println(path);   //路径
             tree.setSelectionPath(new TreePath(nodes));
+        }
+    }
 
+    public void updateCodeMatchTF(){
+        if (target != null) {
             NodeInfo info = (NodeInfo) target.getUserObject();
             String code = codeGenerator.generateCode(currentDevice, info.node, false, false);
             main.setMatchCodeTF(codeGenerator.getCompletedCode(currentDevice.getAlias(), code));

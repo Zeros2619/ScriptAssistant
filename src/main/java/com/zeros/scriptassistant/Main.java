@@ -370,6 +370,7 @@ public class Main {
                     NodeInfo nodeInfo = (NodeInfo) selectedNode.getUserObject();
                     // 控件节点被选中时，更新属性表和绘制控件矩形框
                     updateDeviceInfoTable(nodeInfo);
+                    manager.setTarget(selectedNode);
                     imagePanel.paintRect(nodeInfo);
                     imagePanel.paintGreenRect(null);
                 }
@@ -385,9 +386,6 @@ public class Main {
                     if (SwingUtilities.isRightMouseButton(e)) {
                         int row = nodeTree.getClosestRowForLocation(e.getX(), e.getY());
                         nodeTree.setSelectionRow(row);
-                        TreePath path = nodeTree.getPathForRow(row);
-                        DefaultMutableTreeNode node = (DefaultMutableTreeNode) path.getLastPathComponent();
-                        manager.setTarget(node);
                         manager.generateSelectorCode();
                     }
                 }
