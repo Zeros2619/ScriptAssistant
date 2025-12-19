@@ -78,10 +78,12 @@ public class XPathLite {
                 array.add("*[@resource-id=\"" + selectedNode.getAttributes().getNamedItem("resource-id").getNodeValue() + "\"]");
                 break;
             } else if (getAttrCount(map, "text", selectedNode) == 1) {
-                array.add("*[@text=\"" + selectedNode.getAttributes().getNamedItem("text").getNodeValue() + "\"]");
+                String text = NodeInfo.toEscapedString(selectedNode.getAttributes().getNamedItem("text").getNodeValue());
+                array.add("*[@text=\"" + text + "\"]");
                 break;
             } else if (getAttrCount(map, "content-desc", selectedNode) == 1) {
-                array.add("*[@content-desc=\"" + selectedNode.getAttributes().getNamedItem("content-desc").getNodeValue() + "\"]");
+                String desc = NodeInfo.toEscapedString(selectedNode.getAttributes().getNamedItem("content-desc").getNodeValue());
+                array.add("*[@content-desc=\"" + desc + "\"]");
                 break;
             } else {
                 int index = 0;

@@ -75,7 +75,9 @@ public class NodeLocator {
             return null;
         }
         for (String prop : propsResult) {
-            attributeCombination.append(propMap.get(prop)).append("=\"").append(node.getAttributes().getNamedItem(prop).getNodeValue()).append("\",");
+            // 对属性值进行转义
+            String value = NodeInfo.toEscapedString(node.getAttributes().getNamedItem(prop).getNodeValue());
+            attributeCombination.append(propMap.get(prop)).append("=\"").append(value).append("\",");
         }
         // 结尾去掉最后一个逗号
         attributeCombination.deleteCharAt(attributeCombination.length() - 1);

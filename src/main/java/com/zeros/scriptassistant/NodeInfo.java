@@ -43,8 +43,8 @@ public class NodeInfo {
         this.node = node;
         Element element = (Element) node;
         id = element.getAttribute("resource-id");
-        text = element.getAttribute("text");
-        desc = element.getAttribute("content-desc");
+        text = toEscapedString(element.getAttribute("text"));
+        desc = toEscapedString(element.getAttribute("content-desc"));
         Class = element.getAttribute("class");
         Package = element.getAttribute("package");
         checkable = element.getAttribute("checkable");
@@ -191,5 +191,15 @@ public class NodeInfo {
             result.append("{").append(showDesc).append("}");
         }
         return result.toString();
+    }
+
+    public static String toEscapedString(String input) {
+        // 转义常见的控制字符为可见形式
+        return input
+                .replace("\\", "\\\\")   // 先处理反斜杠本身
+                .replace("\n", "\\n")    // 换行
+                .replace("\r", "\\r")    // 回车
+                .replace("\t", "\\t")    // 制表符
+                .replace("\"", "\\\"");
     }
 }
