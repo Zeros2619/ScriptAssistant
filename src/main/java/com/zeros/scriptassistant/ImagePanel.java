@@ -129,8 +129,10 @@ public class ImagePanel extends JPanel {
 
                 // 启动定时器，延迟 300 毫秒执行单击任务
                 singleClickTimer = new Timer(200, e1 -> {
-                    singleClickTask.run();
-                    singleClickTask = null;
+                    if (singleClickTask != null) {
+                        singleClickTask.run();
+                        singleClickTask = null;
+                    }
                 });
                 singleClickTimer.setRepeats(false);
                 singleClickTimer.start();
