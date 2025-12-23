@@ -74,6 +74,9 @@ public class XPathLite {
         List<String> array = new ArrayList<>();
         while (true) {
             Node parentNode = selectedNode.getParentNode();
+            if (!selectedNode.getNodeName().equals("node")) {
+                break;
+            }
             if (getAttrCount(map, "resource-id", selectedNode) == 1) {
                 array.add("*[@resource-id=\"" + selectedNode.getAttributes().getNamedItem("resource-id").getNodeValue() + "\"]");
                 break;
