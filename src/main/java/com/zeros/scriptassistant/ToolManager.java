@@ -93,9 +93,9 @@ public class ToolManager {
 
     public void disconnectDevice() {
         if (currentDevice != null) {
-            main.setDisconnectUIState();
             currentDevice.close();
             connectedDevices.remove(currentDevice);
+            main.setDisconnectUIState();
         }
     }
 

@@ -120,8 +120,7 @@ public class PythonExecutor {
         return trim;
     }
 
-    public void close() throws IOException {
-        executeCode("exit()", 0);
+    public void destroy() throws IOException {
         writer.close();
         reader.close();
         pythonProcess.destroy();
@@ -144,7 +143,7 @@ public class PythonExecutor {
             System.out.println(executor.executeCode(""));
             // 退出Python解释器
             ThreadUtil.sleep(1000);
-            executor.close();
+            executor.destroy();
         } catch (IOException e) {
             e.printStackTrace();
         }

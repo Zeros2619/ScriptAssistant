@@ -156,7 +156,6 @@ public class Main {
                 } else {
                     manager.disconnectDevice();
                     manager.updateDevicesShow();
-                    connectBtn.setEnabled(true);
                 }
             }
         });
@@ -286,6 +285,7 @@ public class Main {
         connectBtn.setSelected(false);
         connectBtn.setText("disconnect");
         dumpButton.setVisible(true);
+        setAllViewEnabled(true);
     }
 
     public void setDisconnectUIState() {
@@ -293,6 +293,7 @@ public class Main {
         connectBtn.setSelected(false);
         connectBtn.setText("connect");
         dumpButton.setVisible(false);
+        setAllViewEnabled(true);
     }
 
     public void updateDevicesComboBox(List<String> devices) {

@@ -44,7 +44,11 @@ public class Device {
         dumpSaveDir = saveDir;
         screenShotSaveFile = new File(dumpSaveDir, "screen.png");
         hierarchySaveFile = new File(dumpSaveDir, "hierarchy.xml");
-        return u2.init(pythonPath, serial, OBJECT_NAME);
+        boolean success = u2.init(pythonPath, serial, OBJECT_NAME);
+        if (!success) {
+            u2.destroy();
+        }
+        return success;
     }
 
     public String getSerial() {
@@ -143,7 +147,7 @@ public class Device {
     }
 
     public void close() {
-        u2.close();
+        u2.destroy();
     }
 
     public void setAlias(String alias) {

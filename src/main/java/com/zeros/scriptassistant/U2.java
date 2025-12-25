@@ -94,9 +94,9 @@ public class U2 {
         return new Rectangle(left, top, right-left, bottom-top);
     }
 
-    public void close() {
+    public void destroy() {
         try {
-            executor.close();
+            executor.destroy();
             executor = null;
         } catch (IOException e) {
             e.printStackTrace();

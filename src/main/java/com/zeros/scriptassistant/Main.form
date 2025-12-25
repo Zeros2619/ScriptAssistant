@@ -17,8 +17,8 @@
             <properties/>
             <border type="none"/>
             <children>
-              <grid id="89bf9" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-                <constraints border-constraint="West"/>
+              <grid id="89bf9" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
+                <constraints border-constraint="Center"/>
                 <properties/>
                 <border type="none"/>
                 <children>
@@ -97,10 +97,14 @@
                   <component id="e02d5" class="javax.swing.JLabel" binding="settingsBtn">
                     <constraints/>
                     <properties>
+                      <alignmentY value="0.5"/>
+                      <horizontalAlignment value="0"/>
+                      <horizontalTextPosition value="0"/>
                       <maximumSize width="24" height="24"/>
                       <minimumSize width="24" height="24"/>
                       <preferredSize width="24" height="24"/>
                       <text value=""/>
+                      <verticalAlignment value="0"/>
                     </properties>
                   </component>
                 </children>
