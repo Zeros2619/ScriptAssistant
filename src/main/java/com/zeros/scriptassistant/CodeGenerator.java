@@ -1,5 +1,6 @@
 package com.zeros.scriptassistant;
 
+import cn.hutool.core.util.StrUtil;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.application.PathManager;
 import com.intellij.openapi.command.WriteCommandAction;
@@ -214,7 +215,11 @@ public class CodeGenerator {
     }
 
 
-    public String getPythonSdkPath() {
+    public String getPythonSdkPath(DeviceAliasConfig deviceAliasConfig) {
+        String interpreterPath = deviceAliasConfig.getPythonInterpreterPath();
+        if (StrUtil.isNotEmpty(interpreterPath)){
+            return interpreterPath;
+        }
         // 获取当前项目的SDK
         Sdk projectSdk = ProjectRootManager.getInstance(project).getProjectSdk();
 

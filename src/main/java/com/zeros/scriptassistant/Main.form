@@ -86,6 +86,24 @@
                   </component>
                 </children>
               </grid>
+              <grid id="4767f" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints border-constraint="East"/>
+                <properties>
+                  <minimumSize width="34" height="34"/>
+                </properties>
+                <border type="none"/>
+                <children>
+                  <component id="e02d5" class="javax.swing.JLabel" binding="settingsBtn">
+                    <constraints/>
+                    <properties>
+                      <maximumSize width="24" height="24"/>
+                      <minimumSize width="24" height="24"/>
+                      <preferredSize width="24" height="24"/>
+                      <text value=""/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
             </children>
           </grid>
         </children>

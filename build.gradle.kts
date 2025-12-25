@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.zeros.scriptassistant"
-version = "1.4-SNAPSHOT"
+version = "1.6"
 
 repositories {
     mavenCentral()

@@ -40,4 +40,12 @@ public class DeviceAliasConfig implements PersistentStateComponent<DeviceAliasCo
     public void setAlias(String serial, String alias) {
         deviceAliases.put(serial, alias);
     }
+
+    public String getPythonInterpreterPath() {
+        return deviceAliases.getOrDefault("pythonInterpreterPath", "");
+    }
+
+    public void setPythonInterpreterPath(String path) {
+        deviceAliases.put("pythonInterpreterPath", path);
+    }
 }

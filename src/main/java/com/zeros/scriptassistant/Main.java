@@ -13,7 +13,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
-import javax.swing.tree.TreePath;
 import java.awt.*;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.*;
@@ -47,6 +46,7 @@ public class Main {
     private JPanel bottom;
     private JTextField matchCodeTF;
     private JButton matchBtn;
+    private JLabel settingsBtn;
     private ToolManager manager;
     private final ImagePanel.ImagePanelListener imagePanelListener = new ImagePanel.ImagePanelListener() {
         @Override
@@ -112,6 +112,8 @@ public class Main {
         this.manager = manager;
         Icon icon = IconLoader.getIcon("/reload.svg", Main.class);
         reloadBtn.setIcon(icon);
+        Icon settingsIcon = IconLoader.getIcon("/settings.svg", Main.class);
+        settingsBtn.setIcon(settingsIcon);
         imagePanel = new ImagePanel();
         imagePanel.setListener(imagePanelListener);
         viewPanel.add(imagePanel);
@@ -123,7 +125,12 @@ public class Main {
                 manager.updateDevicesShow();
             }
         });
-
+        settingsBtn.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                manager.showSettingsDialog();
+            }
+        });
         dumpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

@@ -12,8 +12,13 @@ public class U2 {
 
     public boolean init(String path, String serial, String objectName) {
         try {
-            failMsg = "init failed";
+            failMsg = "Init failed, python interpreter path: " + path;
             executor = new PythonExecutor(path);
+            String errorMsg = executor.getErrorMessage();
+            if (errorMsg != null) {
+                failMsg = errorMsg;
+                return false;
+            }
             String result = executor.executeCode("import uiautomator2 as u2");
             if (result.contains("ModuleNotFoundError:")) {
                 System.out.println(result);

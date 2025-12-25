@@ -2,6 +2,8 @@ package com.zeros.scriptassistant;
 
 import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.StrUtil;
+import com.intellij.notification.NotificationGroupManager;
+import com.intellij.notification.NotificationType;
 import com.intellij.openapi.project.Project;
 
 import javax.imageio.ImageIO;
@@ -20,14 +22,16 @@ import java.util.concurrent.TimeUnit;
 
 public class ToolManager {
     private final Main main;
+    private final Project project;
     private boolean saneCode;
     private Device currentDevice;
     private final List<Device> connectedDevices = new ArrayList<>();
     private final CodeGenerator codeGenerator;
-    private DeviceAliasConfig deviceAliasConfig;
+    private final DeviceAliasConfig deviceAliasConfig;
 
     public ToolManager(Main main, Project project) {
         this.main = main;
+        this.project = project;
         codeGenerator = new CodeGenerator(project);
         deviceAliasConfig = DeviceAliasConfig.getInstance(project);
     }
@@ -56,11 +60,7 @@ public class ToolManager {
         }
 
         main.setErrorPanel("", false);
-        String pythonSdkPath = codeGenerator.getPythonSdkPath();
-        if (pythonSdkPath == null) {
-            main.setErrorPanel("Please configure the Python interpreter and install the uiautomator2 dependency", true);
-            return false;
-        }
+        String pythonSdkPath = codeGenerator.getPythonSdkPath(deviceAliasConfig);
         System.out.println("pythonSdkPath=" + pythonSdkPath);
         Device connectingDevice = new Device(serial, deviceAliasConfig);
         if (connectingDevice.init(pythonSdkPath, codeGenerator.getFilePath())) {
@@ -71,9 +71,17 @@ public class ToolManager {
             main.setErrorPanel("", false);
             return true;
         } else {
-            main.setErrorPanel(connectingDevice.u2.getInitFailMsg(), true);
+//            main.setErrorPanel(connectingDevice.u2.getInitFailMsg(), true);
+            sendNotification("Error", connectingDevice.u2.getInitFailMsg(), NotificationType.ERROR);
         }
         return false;
+    }
+
+    public void sendNotification(String title, String message, NotificationType type) {
+        NotificationGroupManager.getInstance()
+                .getNotificationGroup("Script Assistant")  // 在 plugin.xml 中注册 group
+                .createNotification(title, message, type)
+                .notify(project);
     }
 
     public void disconnectDevice() {
@@ -375,5 +383,10 @@ public class ToolManager {
         target1.bounds = nodeBounds;
         target1.area = nodeBounds.width * nodeBounds.height;
         main.paintGreenRect(target1);
+    }
+
+    public void showSettingsDialog() {
+        SettingsDialog dialog = new SettingsDialog(project, deviceAliasConfig);
+        dialog.show();
     }
 }
