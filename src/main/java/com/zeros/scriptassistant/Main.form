@@ -57,6 +57,7 @@
                     <properties>
                       <enabled value="false"/>
                       <text value="dump"/>
+                      <visible value="false"/>
                     </properties>
                   </component>
                   <component id="78fef" class="javax.swing.JCheckBox" binding="saneCheckBox">

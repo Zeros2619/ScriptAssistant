@@ -50,31 +50,38 @@ public class ToolManager {
         return false;
     }
 
-    public boolean connectDevice(String serial) {
+    public void connectDevice(String serial) {
         if (serial == null || serial.trim().isEmpty()) {
-            return false;
+            main.onDeviceConnected(false);
+            return;
         }
         // 检查设备的连接状态
         if (!ADBDeviceUtils.isDeviceOnline(serial)) {
-            return false;
+            main.onDeviceConnected(false);
+            return;
         }
 
         main.setErrorPanel("", false);
         String pythonSdkPath = codeGenerator.getPythonSdkPath(deviceAliasConfig);
         System.out.println("pythonSdkPath=" + pythonSdkPath);
         Device connectingDevice = new Device(serial, deviceAliasConfig);
-        if (connectingDevice.init(pythonSdkPath, codeGenerator.getFilePath())) {
-            connectingDevice.setAlias(connectedDevices.size());
-            main.setAlias(connectingDevice.getAlias());
-            connectedDevices.add(connectingDevice);
-            currentDevice = connectingDevice;
-            main.setErrorPanel("", false);
-            return true;
-        } else {
-//            main.setErrorPanel(connectingDevice.u2.getInitFailMsg(), true);
-            sendNotification("Error", connectingDevice.u2.getInitFailMsg(), NotificationType.ERROR);
-        }
-        return false;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                if(connectingDevice.init(pythonSdkPath,codeGenerator.getFilePath())){
+                    connectingDevice.setAlias(connectedDevices.size());
+                    main.setAlias(connectingDevice.getAlias());
+                    connectedDevices.add(connectingDevice);
+                    currentDevice = connectingDevice;
+                    main.onDeviceConnected(true);
+                    main.setErrorPanel("", false);
+                } else {
+                    main.onDeviceConnected(false);
+                    main.setErrorPanel(connectingDevice.u2.getInitFailMsg(), true);
+                    sendNotification("Error", connectingDevice.u2.getInitFailMsg(), NotificationType.ERROR);
+                }
+            }
+        }).start();
     }
 
     public void sendNotification(String title, String message, NotificationType type) {

@@ -148,20 +148,16 @@ public class Main {
         connectBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                connectBtn.setEnabled(false);
+                setAllViewEnabled(false);
                 String statusText = connectBtn.getText();
                 if (statusText.equals("connect")) {
                     String item = (String) devicesCombo.getSelectedItem();
-                    boolean connected = manager.connectDevice(item);
-                    if (connected) {
-                        setConnectedUIState();
-                        manager.updateScreen();
-                    }
+                    manager.connectDevice(item);
                 } else {
                     manager.disconnectDevice();
                     manager.updateDevicesShow();
+                    connectBtn.setEnabled(true);
                 }
-                connectBtn.setEnabled(true);
             }
         });
 
@@ -289,14 +285,14 @@ public class Main {
         aliasTF.setVisible(true);
         connectBtn.setSelected(false);
         connectBtn.setText("disconnect");
-//        dumpButton.setEnabled(true);
+        dumpButton.setVisible(true);
     }
 
     public void setDisconnectUIState() {
         aliasTF.setVisible(false);
         connectBtn.setSelected(false);
         connectBtn.setText("connect");
-        dumpButton.setEnabled(false);
+        dumpButton.setVisible(false);
     }
 
     public void updateDevicesComboBox(List<String> devices) {
@@ -305,6 +301,14 @@ public class Main {
         for (String device : devices) {
             devicesCombo.addItem(device);
         }
+    }
+
+    public void onDeviceConnected(boolean success) {
+        if (success) {
+            setConnectedUIState();
+            manager.updateScreen();
+        }
+        setAllViewEnabled(true);
     }
 
     public void addDeviceToComboBox(String serial) {

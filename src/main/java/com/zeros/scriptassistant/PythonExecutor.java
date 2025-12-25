@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Pattern;
 
 public class PythonExecutor {
     private final String pythonPath;
@@ -25,7 +26,7 @@ public class PythonExecutor {
 
         // 先尝试简单命令行检查 python 是否能正常运行（不进入交互模式）
         if (!isPythonExecutableValid(pythonPath)) {
-            errorMessage = "Invalid python interpreter: " + pythonPath;
+            errorMessage = "Verify python interpreter failed: " + pythonPath;
             return;
         }
 
@@ -37,13 +38,6 @@ public class PythonExecutor {
 
         reader = new BufferedReader(new InputStreamReader(pythonProcess.getInputStream(), "UTF-8"));
         writer = pythonProcess.getOutputStream();
-
-        // 启动后进一步验证交互模式是否正常
-        if (!verifyInteractiveMode()) {
-            pythonProcess.destroyForcibly();
-            errorMessage = "Invalid python interpreter: " + pythonPath;
-            return;
-        }
     }
 
     /**
@@ -53,59 +47,40 @@ public class PythonExecutor {
         try {
             ProcessBuilder pb = new ProcessBuilder(pythonCmd, "--version");
             Process p = pb.start();
+
+            // 读取输出（--version 在 Python 3.4+ 输出到 stdout，旧版本可能到 stderr）
+            BufferedReader stdoutReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            BufferedReader stderrReader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+
+            StringBuilder output = new StringBuilder();
+            String line;
+            while ((line = stdoutReader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+            while ((line = stderrReader.readLine()) != null) {
+                output.append(line).append("\n");
+            }
+
             boolean finished = p.waitFor(5, TimeUnit.SECONDS);
             if (!finished) {
                 p.destroyForcibly();
                 return false;
             }
+
             int exitCode = p.exitValue();
-            return exitCode == 0;
+            if (exitCode != 0) {
+                return false;
+            }
+
+            // 宽松匹配：只要以 "Python 3.xx.xx" 开头即可
+            Pattern pattern = Pattern.compile("^Python\\s+3\\.\\d+\\.\\d+");
+            return output.toString()
+                    .lines()
+                    .map(String::trim)
+                    .anyMatch(line1 -> pattern.matcher(line1).matches());
+
         } catch (IOException | InterruptedException e) {
             return false;
-        }
-    }
-
-    /**
-     * 验证交互模式是否能正常读写
-     * 发送一个简单命令并期待特定输出
-     */
-    private boolean verifyInteractiveMode() throws IOException {
-        // 清空可能的启动输出（Python 交互模式启动时可能有欢迎信息）
-        drainOutput(1000); // 最多等1秒
-
-        // 发送测试命令
-        writer.write("import sys; print('PYTHON_EXECUTOR_READY')\\n".getBytes("UTF-8"));
-        writer.flush();
-
-        // 等待并读取输出，寻找我们的标记
-        long deadline = System.currentTimeMillis() + 5000; // 最多等5秒
-        StringBuilder output = new StringBuilder();
-        while (System.currentTimeMillis() < deadline) {
-            if (reader.ready()) {
-                char[] buf = new char[1024];
-                int len = reader.read(buf);
-                if (len > 0) {
-                    output.append(buf, 0, len);
-                    if (output.toString().contains("PYTHON_EXECUTOR_READY")) {
-                        return true;
-                    }
-                }
-            } else {
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException ignored) {}
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 尽量读取并丢弃已有输出（用于清除启动时的 Python 欢迎信息）
-     */
-    private void drainOutput(long timeoutMs) throws IOException {
-        long deadline = System.currentTimeMillis() + timeoutMs;
-        while (System.currentTimeMillis() < deadline && reader.ready()) {
-            reader.readLine();
         }
     }
 

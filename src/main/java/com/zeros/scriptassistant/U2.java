@@ -19,6 +19,8 @@ public class U2 {
                 failMsg = errorMsg;
                 return false;
             }
+            // 清除reader缓存
+            executor.executeCode("");
             String result = executor.executeCode("import uiautomator2 as u2");
             if (result.contains("ModuleNotFoundError:")) {
                 System.out.println(result);
