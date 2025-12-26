@@ -7,6 +7,7 @@ import com.intellij.openapi.fileChooser.FileChooserDescriptorFactory;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.intellij.openapi.ui.Messages;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.vfs.LocalFileSystem;
 import com.intellij.openapi.vfs.VirtualFile;
 import org.jetbrains.annotations.Nullable;
@@ -35,11 +36,16 @@ public class SettingsDialog extends DialogWrapper {
         if(deviceAliasConfig != null){
             pythonInterpreterPathTF.setText(deviceAliasConfig.getPythonInterpreterPath());
         }
+        Icon icon = IconLoader.getIcon("/folder.svg", Main.class);
+        selectorButton.setIcon(icon);
 
         // 文件选择器
         selectorButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 FileChooserDescriptor descriptor = FileChooserDescriptorFactory.createSingleFileDescriptor();
+                descriptor.setForcedToUseIdeaFileChooser(true);
+                descriptor.withFileFilter(virtualFile -> virtualFile.getName().startsWith("python")
+                        && (virtualFile.getExtension() == null || "exe".equalsIgnoreCase(virtualFile.getExtension())));
                 descriptor.setTitle("Choose Python Interpreter");
                 descriptor.setDescription("Please choose a python interpreter");
                 VirtualFile preselectFile = LocalFileSystem.getInstance().findFileByPath(pythonInterpreterPathTF.getText());
@@ -63,6 +69,10 @@ public class SettingsDialog extends DialogWrapper {
         }else{
             if(!FileUtil.exist(path)){
                 Messages.showErrorDialog("Invalid python interpreter path!", "Error");
+                return;
+            }
+            if(FileUtil.isDirectory(path)){
+                Messages.showErrorDialog("Python interpreter path must be a file", "Error");
                 return;
             }
             deviceAliasConfig.setPythonInterpreterPath(path);

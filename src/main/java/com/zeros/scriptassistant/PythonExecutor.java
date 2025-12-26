@@ -44,44 +44,9 @@ public class PythonExecutor {
      * 检查 python 命令是否能正常执行（不进入交互模式）
      */
     private boolean isPythonExecutableValid(String pythonCmd) {
-        try {
-            ProcessBuilder pb = new ProcessBuilder(pythonCmd, "--version");
-            Process p = pb.start();
-
-            // 读取输出（--version 在 Python 3.4+ 输出到 stdout，旧版本可能到 stderr）
-            BufferedReader stdoutReader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            BufferedReader stderrReader = new BufferedReader(new InputStreamReader(p.getErrorStream()));
-
-            StringBuilder output = new StringBuilder();
-            String line;
-            while ((line = stdoutReader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
-            while ((line = stderrReader.readLine()) != null) {
-                output.append(line).append("\n");
-            }
-
-            boolean finished = p.waitFor(5, TimeUnit.SECONDS);
-            if (!finished) {
-                p.destroyForcibly();
-                return false;
-            }
-
-            int exitCode = p.exitValue();
-            if (exitCode != 0) {
-                return false;
-            }
-
-            // 宽松匹配：只要以 "Python 3.xx.xx" 开头即可
-            Pattern pattern = Pattern.compile("^Python\\s+3\\.\\d+\\.\\d+");
-            return output.toString()
-                    .lines()
-                    .map(String::trim)
-                    .anyMatch(line1 -> pattern.matcher(line1).matches());
-
-        } catch (IOException | InterruptedException e) {
-            return false;
-        }
+        String result = CommandUtil.execCmd(pythonCmd + " --version", 3000);
+        Pattern pattern = Pattern.compile("^Python\\s+3\\.\\d+\\.\\d+");
+        return result.lines().map(String::trim).anyMatch(line1 -> pattern.matcher(line1).matches());
     }
 
     public String executeCode(String code) throws IOException {
@@ -121,9 +86,15 @@ public class PythonExecutor {
     }
 
     public void destroy() throws IOException {
-        writer.close();
-        reader.close();
-        pythonProcess.destroy();
+        if (writer != null) {
+            writer.close();
+        }
+        if (reader != null) {
+            reader.close();
+        }
+        if (pythonProcess != null) {
+            pythonProcess.destroy();
+        }
     }
 
     public String getErrorMessage() {

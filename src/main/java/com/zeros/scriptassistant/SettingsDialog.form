@@ -28,7 +28,7 @@
           <component id="86088" class="javax.swing.JButton" binding="selectorButton" default-binding="true">
             <constraints border-constraint="East"/>
             <properties>
-              <text value="Selector"/>
+              <text value=""/>
             </properties>
           </component>
         </children>

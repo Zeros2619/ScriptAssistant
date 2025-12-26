@@ -98,7 +98,7 @@ public class U2 {
         try {
             executor.destroy();
             executor = null;
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
