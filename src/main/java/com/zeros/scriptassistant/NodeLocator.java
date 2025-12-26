@@ -51,6 +51,9 @@ public class NodeLocator {
     }
 
     public static String getAttributeCombination(NodeList nodeList, Node node) {
+        if (node == null) {
+            return null;
+        }
         StringBuilder attributeCombination = new StringBuilder();
         List<String> propsResult = new ArrayList<>();
         if (node.hasAttributes()) {

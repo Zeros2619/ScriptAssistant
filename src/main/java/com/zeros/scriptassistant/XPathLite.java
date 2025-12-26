@@ -71,6 +71,9 @@ public class XPathLite {
 
 
     public static String getXPath(Map<String, Map<String, Integer>> map, Node selectedNode) {
+        if (selectedNode == null) {
+            return "";
+        }
         List<String> array = new ArrayList<>();
         while (true) {
             Node parentNode = selectedNode.getParentNode();
