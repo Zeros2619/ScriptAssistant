@@ -21,6 +21,8 @@
 ### Prerequisites / 前置要求
 - English: Configure the Python interpreter in PyCharm and install the uiautomator2 library.
 - 中文：需要在PyCharm中配置python解释器，并安装uiautomator2库。
+- For non-PyCharm versions, you need to specify the path to the Python interpreter with the uiautomator2 library installed in the settings.
+- 非PyCharm需要在设置中指定已安装uiautomator2库的python解释器路径
 
 
 ### 1. Top Operation Bar / 顶部操作栏
@@ -32,6 +34,7 @@
 | 4 | In the connected state, a device alias input box will appear (default: "d") for specifying the device alias, which will be referenced in generated code. | 已连接状态下，会显示设备别名输入框（默认值为"d"），用于设置设备别名，生成代码时将引用此别名。 |
 | 5 | "Dump" button: Retrieves current interface screenshots and widget information. | Dump按钮：用于获取当前界面截图和控件信息。 |
 | 6 | "Selector" checkbox: When checked, only generates Selector code. | Selector单选框：勾选时，将只生成Selector的代码。 |
+| 7 | Settings button | 设置按钮 |
 
 
 ### 2. Left Screenshot Area / 左侧界面截图区域
@@ -59,16 +62,26 @@
 | 2 | Right-click on a row of widget properties to automatically insert the property into the positioning code at the cursor position (for adding specific positioning parameters). | 右键选中一行控件属性时，将自动将控件属性插入到编辑光标所在行的定位代码中（用于添加指定定位参数）。 |
 
 
+### 5. Bottom Operation Bar / 底部操作栏
+| 操作步骤 | 英文描述 | 中文描述 |
+|----------|------------------------------|------------------------------|
+| 1 | Displays the positioning code of the selected widget. | 显示已选中控件的定位代码。 |
+| 2 | "Find" button: Finds the corresponding widget position on the "real device current interface" through positioning code and displays it on the tool interface. | Find按钮通过定位代码查找“真实设备当前界面”中对应的控件位置，显示在工具界面上。 |
+
+---
+
+## Version History / 版本更新记录
+
+### Version 1.6
+- 支持设置指定的Python解释器，以便非PyCharm环境也能正常使用
+- 修复已知问题
+
+---
+
 ### 插件详情:
 
 * **插件名称**: ScriptAssistant
+* **版本**: 1.6
 * **描述**: uiautomator2自动化脚本助手：包含自动化脚本录制，智能代码补全等功能，提升自动化脚本编写效率。
-* **目标 IDE 平台**: PyCharm (PC)
-* **支持的 IDE 版本**: 从版本 213 到 251.*
-
-### 项目配置:
-
-* **项目名称**: ScriptAssistant
-* **版本**: 1.3-SNAPSHOT
-* **Gradle IntelliJ 插件版本**: 1.8.0
-* **目标 IntelliJ 版本**: 2021.3.2
+* **目标 IDE 平台**: PyCharm (PC) 和 所有基于IntelliJ的IDE平台
+* **支持的 IDE 版本**: 从版本 213 到 最新
