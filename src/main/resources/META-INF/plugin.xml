@@ -26,6 +26,7 @@
 
 <h4>操作指引：</h4>
 <p><b>前置要求</b>：需要在PyCharm中配置python解释器，并安装uiautomator2库</p>
+<p>非PyCharm需要在设置中指定已安装uiautomator2库的python解释器路径</p>
 
 <p><b>顶部操作栏：</b></p>
 <ol>
@@ -35,6 +36,7 @@
   <li>已连接状态下，会显示设备别名输入框（默认值为"d"），用于设置设备别名，生成代码时将引用此别名</li>
   <li>dump按钮：用于获取当前界面截图和控件信息</li>
   <li>Selector单选框：勾选时，将只生成Selector的代码</li>
+  <li>设置按钮</li>
 </ol>
 
 <p><b>左侧界面截图区域：</b></p>
@@ -109,6 +111,11 @@
 
 <p>This plugin aims to help developers and testers write and debug Android automation scripts more efficiently, especially for automation testing scenarios based on the uiautomator2 framework.</p>
 ]]></description>
+    <change-notes><![CDATA[<h2>Version 1.6</h2>
+        <ul><li>支持设置指定的Python解释器，以便非PyCharm环境也能正常使用</li>
+            <li>修复已知问题</li>
+            </ul>]]></change-notes>
+
     <!-- Product and plugin compatibility requirements.
          Read more: https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html -->
     <depends>com.intellij.modules.platform</depends>

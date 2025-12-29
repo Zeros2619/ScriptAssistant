@@ -25,7 +25,7 @@ public class PythonExecutor {
         }
 
         // 先尝试简单命令行检查 python 是否能正常运行（不进入交互模式）
-        if (!isPythonExecutableValid(pythonPath)) {
+        if (!isPythonExecutableValid()) {
             errorMessage = "Verify python interpreter failed: " + pythonPath;
             return;
         }
@@ -43,8 +43,8 @@ public class PythonExecutor {
     /**
      * 检查 python 命令是否能正常执行（不进入交互模式）
      */
-    private boolean isPythonExecutableValid(String pythonCmd) {
-        String result = CommandUtil.execCmd(pythonCmd + " --version", 3000);
+    private boolean isPythonExecutableValid() {
+        String result = CommandUtil.execCmd(new String[]{pythonPath, "--version"}, 3000);
         Pattern pattern = Pattern.compile("^Python\\s+3\\.\\d+\\.\\d+");
         return result.lines().map(String::trim).anyMatch(line1 -> pattern.matcher(line1).matches());
     }

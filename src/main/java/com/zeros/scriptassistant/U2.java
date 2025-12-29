@@ -24,7 +24,7 @@ public class U2 {
             String result = executor.executeCode("import uiautomator2 as u2");
             if (result.contains("ModuleNotFoundError:")) {
                 System.out.println(result);
-                failMsg = "please install uiautomator2 first";
+                failMsg = "please install uiautomator2 first, interpreter path: " + path;
                 System.out.println(failMsg);
                 return false;
             }
