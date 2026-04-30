@@ -21,15 +21,9 @@
               <text value="Python Interpreter:"/>
             </properties>
           </component>
-          <component id="c2551" class="javax.swing.JTextField" binding="pythonInterpreterPathTF">
+          <component id="ae236" class="com.intellij.openapi.ui.TextFieldWithBrowseButton" binding="pythonInterpreterPathField">
             <constraints border-constraint="Center"/>
             <properties/>
-          </component>
-          <component id="86088" class="javax.swing.JButton" binding="selectorButton" default-binding="true">
-            <constraints border-constraint="East"/>
-            <properties>
-              <text value=""/>
-            </properties>
           </component>
         </children>
       </grid>
