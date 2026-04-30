@@ -50,6 +50,10 @@ public class CodeGenerator {
         return ".click(" + percentX + ", " + percentY + ")";
     }
 
+    public String generateKeyEventCode(String key) {
+        return ".press(\"" + key + "\")";
+    }
+
     public String generateCode(Device device, Node node, boolean onlySelector, boolean xpath) {
         NodeList nodeList = device.hierarchyDoc.getDocumentElement().getElementsByTagName("node");
         String selector = NodeLocator.getAttributeCombination(nodeList, node);

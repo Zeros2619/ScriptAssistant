@@ -6,7 +6,7 @@
     <!-- Public plugin name should be written in Title Case.
          Guidelines: https://plugins.jetbrains.com/docs/marketplace/plugin-overview-page.html#plugin-name -->
     <name>ScriptAssistant</name>
-    <version>1.6</version>
+    <version>1.7</version>
     <!-- A displayed Vendor name or Organization ID displayed on the Plugins Page. -->
     <vendor email="zeros2619@gmail.com" url="https://www.zeros2619.com">Zeros</vendor>
 
@@ -111,8 +111,8 @@
 
 <p>This plugin aims to help developers and testers write and debug Android automation scripts more efficiently, especially for automation testing scenarios based on the uiautomator2 framework.</p>
 ]]></description>
-    <change-notes><![CDATA[<h2>Version 1.6</h2>
-        <ul><li>支持设置指定的Python解释器，以便非PyCharm环境也能正常使用</li>
+    <change-notes><![CDATA[<h2>Version 1.7</h2>
+        <ul><li>新增物理按键操作和代码生成，左键点击执行按键操作，右键点击生成按键操作代码</li>
             <li>修复已知问题</li>
             </ul>]]></change-notes>
 

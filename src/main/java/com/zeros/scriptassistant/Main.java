@@ -47,6 +47,14 @@ public class Main {
     private JTextField matchCodeTF;
     private JButton matchBtn;
     private JLabel settingsBtn;
+    private JButton navBackButton;
+    private JButton navHomeButton;
+    private JButton navRecentButton;
+    private JButton sideVolUpButton;
+    private JButton sidePowerButton;
+    private JButton sideVolDownButton;
+    private JPanel navPanel;
+    private JPanel sidePanel;
     private ToolManager manager;
     private final ImagePanel.ImagePanelListener imagePanelListener = new ImagePanel.ImagePanelListener() {
         @Override
@@ -116,8 +124,9 @@ public class Main {
         settingsBtn.setIcon(settingsIcon);
         imagePanel = new ImagePanel();
         imagePanel.setListener(imagePanelListener);
-        viewPanel.add(imagePanel);
+        viewPanel.add(imagePanel, BorderLayout.CENTER);
 
+        setDisconnectUIState();
         manager.updateDevicesShow();
         reloadBtn.addMouseListener(new MouseAdapter() {
             @Override
@@ -131,6 +140,23 @@ public class Main {
                 manager.showSettingsDialog();
             }
         });
+
+        // 加载导航按钮图标
+        Icon backIcon = IconLoader.getIcon("/back.svg", Main.class);
+        navBackButton.setIcon(backIcon);
+        Icon homeIcon = IconLoader.getIcon("/home.svg", Main.class);
+        navHomeButton.setIcon(homeIcon);
+        Icon recentIcon = IconLoader.getIcon("/recent.svg", Main.class);
+        navRecentButton.setIcon(recentIcon);
+
+        // 加载侧边按钮图标
+        Icon volUpIcon = IconLoader.getIcon("/volume_up.svg", Main.class);
+        sideVolUpButton.setIcon(volUpIcon);
+        Icon powerIcon = IconLoader.getIcon("/power.svg", Main.class);
+        sidePowerButton.setIcon(powerIcon);
+        Icon volDownIcon = IconLoader.getIcon("/volume_down.svg", Main.class);
+        sideVolDownButton.setIcon(volDownIcon);
+
         dumpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -239,6 +265,55 @@ public class Main {
                 manager.matchNodeByCode();
             }
         });
+
+        // Android 导航按钮事件监听
+        navBackButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                navBackButton.setSelected(true);
+                manager.sendKeyEventCommand("back", SwingUtilities.isRightMouseButton(e));
+            }
+        });
+        navHomeButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                navBackButton.setSelected(true);
+                manager.sendKeyEventCommand("home", SwingUtilities.isRightMouseButton(e));
+            }
+        });
+        navRecentButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                navBackButton.setSelected(true);
+                manager.sendKeyEventCommand("recent", SwingUtilities.isRightMouseButton(e));
+            }
+        });
+
+        // 侧边物理按键事件监听 - 音量加
+        sideVolUpButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                sideVolUpButton.setSelected(true);
+                manager.sendKeyEventCommand("volume_up", SwingUtilities.isRightMouseButton(e));
+            }
+        });
+        // 侧边物理按键事件监听 - 电源键
+        sidePowerButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                sidePowerButton.setSelected(true);
+                manager.sendKeyEventCommand("power", SwingUtilities.isRightMouseButton(e));
+            }
+        });
+        // 侧边物理按键事件监听 - 音量减
+        sideVolDownButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                sideVolDownButton.setSelected(true);
+                manager.sendKeyEventCommand("volume_down", SwingUtilities.isRightMouseButton(e));
+            }
+        });
+
         updateDeviceInfoTable(null);
         return root;
     }
@@ -278,10 +353,26 @@ public class Main {
         connectBtn.setEnabled(enable);
         matchCodeTF.setEnabled(enable);
         matchBtn.setEnabled(enable);
+        setNavButtonEnabled(enable);
+        setSideButtonEnabled(enable);
+    }
+
+    public void setNavButtonEnabled(boolean enable) {
+        navBackButton.setEnabled(enable);
+        navHomeButton.setEnabled(enable);
+        navRecentButton.setEnabled(enable);
+    }
+
+    public void setSideButtonEnabled(boolean enable) {
+        sideVolUpButton.setEnabled(enable);
+        sidePowerButton.setEnabled(enable);
+        sideVolDownButton.setEnabled(enable);
     }
 
     public void setConnectedUIState() {
         aliasTF.setVisible(true);
+        navPanel.setVisible(true);
+        sidePanel.setVisible(true);
         connectBtn.setSelected(false);
         connectBtn.setText("disconnect");
         dumpButton.setVisible(true);
@@ -290,6 +381,8 @@ public class Main {
 
     public void setDisconnectUIState() {
         aliasTF.setVisible(false);
+        navPanel.setVisible(false);
+        sidePanel.setVisible(false);
         connectBtn.setSelected(false);
         connectBtn.setText("connect");
         dumpButton.setVisible(false);

@@ -182,7 +182,7 @@ public class ToolManager {
             }
         }).start();
         try {
-            latch.await(30, TimeUnit.SECONDS);
+            latch.await(15, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -329,14 +329,12 @@ public class ToolManager {
                     // 获取执行结果（如果需要）
                     String result = get();
                     // 在 EDT 中更新 UI
-                    updateScreen(1000);
+                    updateScreen(500);
                 } catch (Exception e) {
+                    main.setAllViewEnabled(true);
                     // 处理异常情况
                     e.printStackTrace();
                     main.setErrorPanel("exec code error: " + e.getMessage(), true);
-                } finally {
-                    // 确保按钮状态被恢复
-                    main.setAllViewEnabled(true);
                 }
             }
         }.execute(); // 启动 SwingWorker
@@ -385,7 +383,6 @@ public class ToolManager {
             updateScreen();
             return;
         }
-        System.out.println(nodeBounds);
         NodeInfo target1 = new NodeInfo("target");
         target1.bounds = nodeBounds;
         target1.area = nodeBounds.width * nodeBounds.height;
@@ -396,4 +393,13 @@ public class ToolManager {
         SettingsDialog dialog = new SettingsDialog(project, deviceAliasConfig);
         dialog.show();
     }
+
+    public void sendKeyEventCommand(String key, boolean isRightClick) {
+        String code = codeGenerator.generateKeyEventCode(key);
+        if (isRightClick) {
+            codeGenerator.insert(codeGenerator.getCompletedCode(currentDevice.getAlias(), code), true);
+        }
+        execCode(codeGenerator.getCompletedCode(Device.OBJECT_NAME, code));
+    }
+
 }
