@@ -1,0 +1,23 @@
+<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" aria-label="U2 icon">
+    <!-- 主字符 U：白色、粗体，定位核心视觉区 -->
+    <text
+            x="7"
+            y="18"
+            font-family="Arial, Helvetica, sans-serif"
+            font-size="20"
+            font-weight="bold"
+            fill="#B0B0B0"
+            text-anchor="middle"
+            dominant-baseline="alphabetic">U</text>
+
+    <!-- 数字 2：白色、更小，与U底部对齐且位于右下角 -->
+    <text
+            x="13"
+            y="17.5"
+            font-family="Arial, Helvetica, sans-serif"
+            font-size="12"
+            font-weight="bold"
+            fill="#B0B0B0"
+            text-anchor="start"
+            dominant-baseline="alphabetic">2</text>
+</svg>

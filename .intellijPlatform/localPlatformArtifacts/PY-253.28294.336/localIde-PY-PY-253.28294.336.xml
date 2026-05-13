@@ -1,0 +1,10 @@
+<ivy-module version="2.0">
+  <info organisation="localIde" module="PY" revision="PY-253.28294.336"/>
+  <configurations>
+    <conf name="default" visibility="public"/>
+  </configurations>
+  <publications>
+    <artifact name="Program Files/JetBrains/PyCharm 2025.3" ext="directory" conf="default"/>
+  </publications>
+  <dependencies/>
+</ivy-module>
